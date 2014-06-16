@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+    <name>plg_system_etdoptimizer</name>
+    <creationDate>18 Avril 2012</creationDate>
+    <author>ETD Solutions</author>
+    <authorEmail>support@etd-solutions.com</authorEmail>
+    <authorUrl>http://www.etd-solutions.com</authorUrl>
+    <copyright>Copyright (C) 2014 ETD Solutions, SARL Etudoo. Tous droits réservés.</copyright>
+    <license>Utilisation réservée aux clients d'ETD Solutions.</license>
+    <version>1.1.1</version>
+    <description>Optimisation du rendu des pages.</description>
+    <files>
+        <filename plugin="etdoptimize">etdoptimizer.php</filename>
+        <filename>etdoptimizer.xml</filename>
+        <filename>index.html</filename>
+        <folder>js</folder>
+        <folder>language</folder>
+        <folder>parts</folder>
+    </files>
+    <config>
+        <fields name="params">
+
+            <fieldset name="basic" label="PLG_SYSTEM_ETDOPTIMIZER_BASIC_LABEL">
+                <field name="modernizr" type="radio"
+                       default="1"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_INCLUDE_MODERNIZR_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_INCLUDE_MODERNIZR_LABEL"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNo</option>
+                    <option value="1">JYes</option>
+                </field>
+                <field name="jquery" type="radio"
+                       default="1"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_INCLUDE_JQUERY_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_INCLUDE_JQUERY_LABEL"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNo</option>
+                    <option value="1">JYes</option>
+                </field>
+                <field name="mootools_legacy" type="radio"
+                       default="0"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_MOOTOOLS_LEGACY_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_MOOTOOLS_LEGACY_LABEL"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNo</option>
+                    <option value="1">JYes</option>
+                </field>
+                <field name="js_exclude" type="text"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_JS_EXCLUDE_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_JS_EXCLUDE_LABEL"
+                       default=""
+                       size="50"/>
+                <field name="css_exclude" type="text"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_CSS_EXCLUDE_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_CSS_EXCLUDE_LABEL"
+                       default=""
+                       size="50"/>
+            </fieldset>
+
+            <fieldset name="mobile" label="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_LABEL">
+
+                <field name="mobile_enabled" type="radio" default="0"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_ENABLED_LABEL"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_ENABLED_DESC"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="mobile_template" type="folderlist"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_TEMPLATE_LABEL"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_TEMPLATE_DESC"
+                       directory="../templates" filter="" exclude="" stripext=""
+                       default=""
+                        />
+
+                <field name="mobile_tablets" type="radio" default="0"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_TABLETS_LABEL"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_TABLETS_DESC"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="mobile_redirect" type="radio" default="0"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_REDIRECT_LABEL"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_REDIRECT_DESC"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+                <field name="mobile_uri" type="text"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_URI_LABEL"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_MOBILE_URI_DESC"
+                       default=""
+                       size="50"
+                        />
+
+            </fieldset>
+
+            <fieldset name="advanced" label="PLG_SYSTEM_ETDOPTIMIZER_ADVANCED_LABEL">
+                <field name="viewport" type="text"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_VIEWPORT_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_VIEWPORT_LABEL"
+                       default="width=device-width, initial-scale=1.0"
+                       size="50"
+                        />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
