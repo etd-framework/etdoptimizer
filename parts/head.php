@@ -99,7 +99,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		}
 
 		if ($this->params->get('modernizr', false) && !$this->params->get('is_mobile', false))
-			echo "<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/js/modernizr.custom.25958.js\"></script>";
+			echo "<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/js/modernizr.custom.59738.js\"></script>";
 
 		return ob_get_clean();
 		
