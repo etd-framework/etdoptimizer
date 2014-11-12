@@ -12,6 +12,8 @@
 require_once(JPATH_PLUGINS.'/system/etdoptimizer/part.php');
 
 class EtdOptimizerHead extends EtdOptimizerPart {
+
+    const MODERNIZR_FILENAME = "modernizr.custom.50344.js";
 	
 	public function render() {
 		
@@ -99,7 +101,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		}
 
 		if ($this->params->get('modernizr', false) && !$this->params->get('is_mobile', false))
-			echo "<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/js/modernizr.custom.44931.js\"></script>";
+			echo "<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/js/" . self::MODERNIZR_FILENAME . "\"></script>";
 
 		return ob_get_clean();
 		

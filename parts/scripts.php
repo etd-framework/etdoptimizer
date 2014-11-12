@@ -13,6 +13,8 @@ require_once(JPATH_PLUGINS . '/system/etdoptimizer/part.php');
 
 class EtdOptimizerScripts extends EtdOptimizerPart {
 
+    const JQUERY_VERSION = "1.11.1";
+
     public function render() {
 
         jimport('joomla.filesystem.file');
@@ -24,7 +26,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
         ob_start();
 
         if ($this->params->get('jquery', false)) {
-            echo "<script src=\"//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js\"></script>\n<script>window.jQuery || document.write('<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/js/jquery-1.11.1.min.js\"><\\/script>')</script>\n";
+            echo "<script src=\"//ajax.googleapis.com/ajax/libs/jquery/" . self::JQUERY_VERSION . "/jquery.min.js\"></script>\n<script>window.jQuery || document.write('<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/js/jquery-" . self::JQUERY_VERSION . ".min.js\"><\\/script>')</script>\n";
 
             // Si on est sur du Joomla! 3.x on vire le jQuery livré avec.
             if (version_compare(JVERSION, '3.0', '>=')) {
