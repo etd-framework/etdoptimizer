@@ -94,9 +94,7 @@ class EtdOptimizer extends Module {
         $js_files = $this->context->controller->js_files;
 
         // Les JS persos en premier.
-        //array_unshift($js_files, _THEME_JS_DIR_ . 'main.min.js');
-        array_unshift($js_files, _THEME_JS_DIR_ . 'plugins.min.js');
-        array_unshift($js_files, _THEME_JS_DIR_ . 'libs/jquery/jquery-1.9.1.min.js');
+        array_unshift($js_files, __PS_BASE_URI__ . 'modules/' . $this->name . '/vendor/etdsolutions/jquery/jquery.min.js');
 
         // On remplace la pile de scripts.
         $this->context->controller->js_files = $js_files;
@@ -174,7 +172,7 @@ class EtdOptimizer extends Module {
      */
     protected function clearFiles() {
 
-        $js_excludes = array('jquery-1.7.2.min.js', 'jquery.idTabs.js', 'jquery.autocomplete.js', 'jquery.bxSlider.min.js', 'homeslider.js', 'jquery.fancybox.js', 'jquery.scrollTo.js', 'jquery.serialScroll.js', 'crossselling.js', 'jquery.typewatch.js');
+        $js_excludes = array('jquery-1.11.0.min.js','jquery-migrate-1.2.1.min.js','tools.js','jquery.easing.js','jquery-1.7.2.min.js', 'jquery.idTabs.js', 'jquery.autocomplete.js', 'jquery.bxSlider.min.js', 'homeslider.js', 'jquery.fancybox.js', 'jquery.scrollTo.js', 'jquery.serialScroll.js', 'crossselling.js', 'jquery.typewatch.js');
         $css_excludes = array('blockcart.css', 'blocksearch.css', 'bx_styles.css', 'jquery.autocomplete.css', 'jquery.fancybox.css', 'crossselling.css');
 
         // On récupère les scripts.
