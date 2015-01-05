@@ -1,19 +1,16 @@
 <?php
 /**
- * @package        ETD Solutions
- * @subpackage     Plugin ETDOptimizer
+ * @package      ETD Optimizer
  *
- * @version        1.1.1
- * @copyright      Copyright (C) 2012 ETD Solutions, SARL Etudoo. Tous droits réservés.
- * @license        http://www.etd-solutions.com/licence
- * @author         ETD Solutions http://www.etd-solutions.com
+ * @version      2.0
+ * @copyright    Copyright (C) 2015 ETD Solutions, SARL Etudoo. Tous droits réservés.
+ * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
+ * @author       ETD Solutions http://www.etd-solutions.com
  **/
 
 require_once(JPATH_PLUGINS . '/system/etdoptimizer/part.php');
 
 class EtdOptimizerScripts extends EtdOptimizerPart {
-
-    const JQUERY_VERSION = "1.11.1";
 
     public function render() {
 
@@ -26,7 +23,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
         ob_start();
 
         if ($this->params->get('jquery', false)) {
-            echo "<script src=\"//ajax.googleapis.com/ajax/libs/jquery/" . self::JQUERY_VERSION . "/jquery.min.js\"></script>\n<script>window.jQuery || document.write('<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/js/jquery-" . self::JQUERY_VERSION . ".min.js\"><\\/script>')</script>\n";
+            echo "<script src=\"//raw.githubusercontent.com/etd-framework/jquery/1.x-master/jquery.min.js\"></script>\n<script>window.jQuery || document.write('<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/vendor/etdsolutions/jquery/jquery.min.js\"><\\/script>')</script>\n";
 
             // Si on est sur du Joomla! 3.x on vire le jQuery livré avec.
             if (version_compare(JVERSION, '3.0', '>=')) {

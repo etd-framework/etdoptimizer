@@ -1,19 +1,16 @@
 <?php
 /**
- * @package		ETD Solutions
- * @subpackage	Plugin ETDOptimizer
- * 
- * @version		1.1.1
- * @copyright	Copyright (C) 2012 ETD Solutions, SARL Etudoo. Tous droits réservés.
- * @license		http://www.etd-solutions.com/licence
- * @author		ETD Solutions http://www.etd-solutions.com
-**/
+ * @package      ETD Optimizer
+ *
+ * @version      2.0
+ * @copyright    Copyright (C) 2015 ETD Solutions, SARL Etudoo. Tous droits réservés.
+ * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
+ * @author       ETD Solutions http://www.etd-solutions.com
+ **/
 
 require_once(JPATH_PLUGINS.'/system/etdoptimizer/part.php');
 
 class EtdOptimizerHead extends EtdOptimizerPart {
-
-    const MODERNIZR_FILENAME = "modernizr.custom.50344.js";
 	
 	public function render() {
 		
@@ -101,7 +98,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		}
 
 		if ($this->params->get('modernizr', false) && !$this->params->get('is_mobile', false))
-			echo "<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/js/" . self::MODERNIZR_FILENAME . "\"></script>";
+			echo "<script src=\"" . JURI::root(true) . "/plugins/system/etdoptimizer/vendor/etdsolutions/modernizr/modernizr.min.js\"></script>";
 
 		return ob_get_clean();
 		
