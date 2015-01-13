@@ -8,6 +8,8 @@
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
 
+include('vendor/autoload.php');
+
 /*
  * On détermine le bon wrapper.
  */
@@ -17,18 +19,14 @@ $wrapper = '';
 // ------------
 
 if (defined('JEXEC')) {
-
     $wrapper = 'joomla';
-
 }
 
 // Prestashop
 // ------------
 
 elseif (defined('_CAN_LOAD_FILES_')) {
-
     $wrapper = 'prestashop';
-
 }
 
 /*
@@ -37,7 +35,7 @@ elseif (defined('_CAN_LOAD_FILES_')) {
 
 if (!empty($wrapper)) {
 
-    $path = realpath(dirname(__FILE__) . "/wrappers/" . $wrapper . ".php");
+    $path = realpath(dirname(__FILE__) . "/platforms/" . $wrapper . ".php");
     if (file_exists($path)) {
         require_once($path);
     }

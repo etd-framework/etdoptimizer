@@ -45,6 +45,14 @@
                     <option value="0">JNo</option>
                     <option value="1">JYes</option>
                 </field>
+                <field name="minify" type="radio"
+                       default="1"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_MINIFY_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_MINIFY_LABEL"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNo</option>
+                    <option value="1">JYes</option>
+                </field>
                 <field name="js_exclude" type="text"
                        description="PLG_SYSTEM_ETDOPTIMIZER_JS_EXCLUDE_DESC"
                        label="PLG_SYSTEM_ETDOPTIMIZER_JS_EXCLUDE_LABEL"

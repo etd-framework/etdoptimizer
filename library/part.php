@@ -12,12 +12,12 @@
 abstract class EtdOptimizerPart {
 
 	/**
-	 * @var $params JRegistry
+	 * @var EtdOptimizerHelper
 	 */
-	protected $params;
+	protected $helper;
 
-	public function __construct($params) {
-		$this->params = $params;
+	public function __construct($helper) {
+		$this->helper = $helper;
 	}
 	
 	abstract public function render();
