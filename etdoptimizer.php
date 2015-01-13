@@ -11,31 +11,31 @@
 include('vendor/autoload.php');
 
 /*
- * On détermine le bon wrapper.
+ * On détermine la bonne plateforme.
  */
-$wrapper = '';
+$platform = '';
 
 // Joomla
 // ------------
 
 if (defined('JEXEC')) {
-    $wrapper = 'joomla';
+    $platform = 'joomla';
 }
 
 // Prestashop
 // ------------
 
 elseif (defined('_CAN_LOAD_FILES_')) {
-    $wrapper = 'prestashop';
+    $platform = 'prestashop';
 }
 
 /*
- * On charge le wrapper si nécessaire.
+ * On charge le plugin si nécessaire.
  */
 
-if (!empty($wrapper)) {
+if (!empty($platform)) {
 
-    $path = realpath(dirname(__FILE__) . "/platforms/" . $wrapper . ".php");
+    $path = realpath(dirname(__FILE__) . "/platforms/" . $platform . "/plugin.php");
     if (file_exists($path)) {
         require_once($path);
     }
