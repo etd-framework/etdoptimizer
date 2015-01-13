@@ -39,10 +39,12 @@ class EtdOptimizer extends Module {
         $this->author = 'ETD Solutions';
         $this->need_instance = 1;
 
+        $this->bootstrap = true;
         parent::__construct();
 
         $this->displayName = $this->l('ETD Optimizer');
         $this->description = $this->l('Optimize html code rendering.');
+        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
 
         $this->helper = new EtdOptimizerHelper(
             $this->loadParams(),
@@ -132,7 +134,248 @@ class EtdOptimizer extends Module {
 
     protected function loadParams() {
 
-        return Configuration::getMultiple(array(
+        return Configuration::getMultiple($this->getConfigFields(), null, 0, 0);
+
+    }
+
+    /** ADMINISTRATION **/
+
+    public function getContent()  {
+
+        $html = '';
+
+        if (Tools::isSubmit('submitSettings'))  {
+
+            Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY', (int)Tools::getValue('ETDOPTIMIZER_JQUERY'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_MODERNIZR', (int)Tools::getValue('ETDOPTIMIZER_MODERNIZR'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_MINIFY', (int)Tools::getValue('ETDOPTIMIZER_MINIFY'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_JS_EXCLUDE', Tools::getValue('ETDOPTIMIZER_JS_EXCLUDE'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_CSS_EXCLUDE', Tools::getValue('ETDOPTIMIZER_CSS_EXCLUDE'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_ENABLED', (int)Tools::getValue('ETDOPTIMIZER_MOBILE_ENABLED'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_URI', Tools::getValue('ETDOPTIMIZER_MOBILE_URI'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_TABLETS', (int)Tools::getValue('ETDOPTIMIZER_MOBILE_TABLETS'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_REDIRECT', (int)Tools::getValue('ETDOPTIMIZER_MOBILE_REDIRECT'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_TEMPLATE', Tools::getValue('ETDOPTIMIZER_MOBILE_TEMPLATE'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', Tools::getValue('ETDOPTIMIZER_VIEWPORT'));
+
+            $html .= $this->displayConfirmation($this->l('Configuration updated'));
+
+        }
+
+        $html .= $this->renderForm();
+
+        return $html;
+    }
+
+    public function renderForm()
+    {
+        $fields_form_1 = array(
+            'form' => array(
+                'legend' => array(
+                    'title' => $this->l('In-Page'),
+                    'icon' => 'icon-file-text'
+                ),
+                'input' => array(
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Inclure jQuery'),
+                        'name' => 'ETDOPTIMIZER_JQUERY',
+                        'desc' => 'Inclure la librairie JavaScript jQuery',
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Disabled')
+                            )
+                        )
+                    ),
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Inclure Modernizr'),
+                        'name' => 'ETDOPTIMIZER_MODERNIZR',
+                        'desc' => 'Inclure Modernizr pour gérer HTML5/CSS3 pour les anciens navigateurs.',
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Disabled')
+                            )
+                        )
+                    ),
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Minifier le JS et CSS inline'),
+                        'name' => 'ETDOPTIMIZER_MINIFY',
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Disabled')
+                            )
+                        )
+                    ),
+                    array(
+                        'type' => 'text',
+                        'label' => $this->l('Fichiers JS à exclure'),
+                        'name' => 'ETDOPTIMIZER_JS_EXCLUDE',
+                        'desc' => $this->l('Liste séparée par virgule des noms de fichiers .js à exclure.')
+                    ),
+                    array(
+                        'type' => 'text',
+                        'label' => $this->l('Fichiers CSS à exclure'),
+                        'name' => 'ETDOPTIMIZER_CSS_EXCLUDE',
+                        'desc' => $this->l('Liste séparée par virgule des noms de fichiers .css à exclure.')
+                    )
+                ),
+                'submit' => array(
+                    'title' => $this->l('Save'),
+                )
+            ),
+        );
+
+        $fields_form_2 = array(
+            'form' => array(
+                'legend' => array(
+                    'title' => $this->l('Mobile'),
+                    'icon' => 'icon-mobile'
+                ),
+                'input' => array(
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Détection mobile'),
+                        'name' => 'ETDOPTIMIZER_MOBILE_ENABLED',
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Disabled')
+                            )
+                        )
+                    ),
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Inclure les tablettes'),
+                        'name' => 'ETDOPTIMIZER_MOBILE_TABLETS',
+                        'desc' => $this->l('Inclure les tablettes comme périphériques mobiles'),
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Disabled')
+                            )
+                        )
+                    ),
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Redirection'),
+                        'name' => 'ETDOPTIMIZER_MOBILE_REDIRECT',
+                        'desc' => $this->l('Rediriger le visiteur vers un site mobile'),
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Disabled')
+                            )
+                        )
+                    ),
+                    array(
+                        'type' => 'text',
+                        'label' => $this->l('URL mobile'),
+                        'name' => 'ETDOPTIMIZER_MOBILE_URI',
+                        'desc' => $this->l('URL vers laquelle rediriger les mobiles')
+                    )
+                ),
+                'submit' => array(
+                    'title' => $this->l('Save'),
+                )
+            ),
+        );
+
+        $fields_form_3 = array(
+            'form' => array(
+                'legend' => array(
+                    'title' => $this->l('Avancé'),
+                    'icon' => 'icon-cogs'
+                ),
+                'input' => array(
+                    array(
+                        'type' => 'text',
+                        'label' => $this->l('Tag Viewport'),
+                        'name' => 'ETDOPTIMIZER_VIEWPORT',
+                        'desc' => $this->l('Valeur de la balise META Viewport')
+                    )
+                ),
+                'submit' => array(
+                    'title' => $this->l('Save'),
+                )
+            ),
+        );
+
+        $helper = new HelperForm();
+        $helper->show_toolbar = false;
+        $helper->table = $this->table;
+        $lang = new Language((int)Configuration::get('PS_LANG_DEFAULT'));
+        $helper->default_form_language = $lang->id;
+        $helper->allow_employee_form_lang = Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG') ? Configuration::get('PS_BO_ALLOW_EMPLOYEE_FORM_LANG') : 0;
+        $this->fields_form = array();
+
+        $helper->identifier = $this->identifier;
+        $helper->submit_action = 'submitSettings';
+        $helper->currentIndex = $this->context->link->getAdminLink('AdminModules', false).'&configure='.$this->name.'&tab_module='.$this->tab.'&module_name='.$this->name;
+        $helper->token = Tools::getAdminTokenLite('AdminModules');
+        $helper->tpl_vars = array(
+            'fields_value' => $this->getConfigValues(),
+            'languages' => $this->context->controller->getLanguages(),
+            'id_language' => $this->context->language->id
+        );
+
+        return $helper->generateForm(array($fields_form_1, $fields_form_2, $fields_form_3));
+    }
+
+    public function getConfigValues() {
+
+        $ret = array();
+
+        foreach ($this->getConfigFields() as $field) {
+            $ret[$field] = Tools::getValue($field, Configuration::getGlobalValue($field));
+        }
+
+        return $ret;
+    }
+
+    protected function getConfigFields() {
+
+        return array(
             'ETDOPTIMIZER_JQUERY',
             'ETDOPTIMIZER_MODERNIZR',
             'ETDOPTIMIZER_MINIFY',
@@ -144,7 +387,7 @@ class EtdOptimizer extends Module {
             'ETDOPTIMIZER_MOBILE_REDIRECT',
             'ETDOPTIMIZER_MOBILE_TEMPLATE',
             'ETDOPTIMIZER_VIEWPORT'
-        ), null, 0, 0);
+        );
 
     }
 
