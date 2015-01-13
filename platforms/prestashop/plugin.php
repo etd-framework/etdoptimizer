@@ -59,7 +59,7 @@ class EtdOptimizer extends Module {
         Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY', 1);
         Configuration::updateGlobalValue('ETDOPTIMIZER_MODERNIZR', 1);
         Configuration::updateGlobalValue('ETDOPTIMIZER_MINIFY', 1);
-        Configuration::updateGlobalValue('ETDOPTIMIZER_JS_EXCLUDE', '');
+        Configuration::updateGlobalValue('ETDOPTIMIZER_JS_EXCLUDE', 'tools.js, jquery.easing.js');
         Configuration::updateGlobalValue('ETDOPTIMIZER_CSS_EXCLUDE', '');
         Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_ENABLED', 0);
         Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_URI', '');
@@ -68,7 +68,7 @@ class EtdOptimizer extends Module {
         Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_TEMPLATE', '');
         Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', 'width=device-width, initial-scale=1.0');
 
-        return (parent::install() && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
+        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
 
     }
 
@@ -89,6 +89,19 @@ class EtdOptimizer extends Module {
         return parent::uninstall();
     }
 
+    public function hookActionDispatcher() {
+
+        // On ajoute le dossier des plugins Smarty.
+        $this->context->smarty->addPluginsDir($this->local_path."platforms/prestashop/smarty");
+
+    }
+
+    public function hookActionEtdOptimizerAddJS($params) {
+
+        Media::addInlineJS($params['js']);
+
+    }
+
     public function hookDisplayEtdOptimizerHead() {
 
         $this->helper->updateDoc(
@@ -99,7 +112,7 @@ class EtdOptimizer extends Module {
             null,
             $this->context->smarty->tpl_vars['css_files']->value,
             null,
-            $this->context->smarty->tpl_vars['js_files']->value,
+            array_flip($this->context->smarty->tpl_vars['js_files']->value),
             $this->context->smarty->tpl_vars['js_inline']->value
         );
 

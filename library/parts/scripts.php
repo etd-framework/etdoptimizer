@@ -31,6 +31,10 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
                 $js_exclude = array_merge($js_exclude, array('mootools-core.js', 'core.js', 'mootools-more.js', 'caption.js', 'modal.js', 'mootools.js', 'mootools-core-uncompressed.js', 'mootools-more-uncompressed.js', 'core-uncompressed.js', 'caption-uncompressed.js'));
             }
 
+            if ($this->helper->getParam(PARAM_JQUERY)) {
+                $js_exclude = array_merge($js_exclude, array('jquery-1.11.0.min.js', 'jquery-migrate-1.2.1.min.js'));
+            }
+
             foreach ($this->helper->getDocScripts() as $source => $attribs) {
 
                 // On récupère le chemin et nom de fichier depuis l'URL.
@@ -43,7 +47,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
                 }
 
                 // On remplace les scripts des modules par ceux du template s'ils existent.
-                if (strpos($source, 'modules/') !== false || strpos($source, 'media/jui/js/') !== false || strpos($source, 'media/system/js/') !== false) {
+                if (strpos($source, 'modules/') !== false || strpos($source, 'media/jui/js/') !== false || strpos($source, 'media/system/js/') !== false || strpos($source, 'js/') !== false) {
 
                     $min_js_path = $template_path . 'custom' . str_replace('.js', '.min.js', $path);
                     $js_path = $template_path . 'custom' . $path;
