@@ -84,7 +84,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 			foreach ($this->helper->getDocStyles() as $type => $content) {
 				if (!empty($content)) {
 					if ($this->helper->getParam(PARAM_MINIFY)) {
-						$minifier = new Minify\CSS($content);
+						$minifier = new MatthiasMullie\Minify\CSS($content);
 						$content = $minifier->minify();
 					}
 					echo "<style type=\"" . $type . "\">\n" . $content . "</style>\n";

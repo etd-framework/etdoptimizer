@@ -70,7 +70,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
             }
             if (!empty($script)) {
                 if ($this->helper->getParam(PARAM_MINIFY)) {
-                    $minifier = new Minify\JS($script);
+                    $minifier = new MatthiasMullie\Minify\JS($script);
                     $script = $minifier->minify();
                 }
                 echo "<script>" . $script . "</script>";
