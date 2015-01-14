@@ -32,6 +32,11 @@ class EtdOptimizer extends Module {
 
     private $helper;
 
+    private $stylesheets = array();
+    private $css = array();
+    private $js = array();
+    private $scripts = array();
+
     public function __construct() {
 
         $this->name = 'etdoptimizer';
@@ -72,7 +77,7 @@ class EtdOptimizer extends Module {
         Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', 'width=device-width, initial-scale=1.0');
         Configuration::updateGlobalValue('ETDOPTIMIZER_GOOGLE_FONTS', '');
 
-        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
+        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS')  && $this->registerHook('actionEtdOptimizerAddScript') && $this->registerHook('actionEtdOptimizerAddCSS')  && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
 
     }
 
@@ -94,11 +99,38 @@ class EtdOptimizer extends Module {
 
     public function hookActionEtdOptimizerAddJS($params) {
 
-        Media::addInlineJS($params['js']);
+        if (!in_array($params['js'], $this->js)) {
+            $this->js[] = $params['js'];
+        }
+
+    }
+
+    public function hookActionEtdOptimizerAddScript($params) {
+
+        $this->scripts[$params['src']] = '';
+
+    }
+
+    public function hookActionEtdOptimizerAddCSS($params) {
+
+        if (!in_array($params['css'], $this->css)) {
+            $this->css[] = $params['css'];
+        }
+
+    }
+
+    public function hookActionEtdOptimizerAddStyleSheet($params) {
+
+        $this->stylesheets[$params['src']] = 'all';
 
     }
 
     public function hookDisplayEtdOptimizerHead() {
+
+        $js_files  = array_merge(array_flip($this->context->smarty->tpl_vars['js_files']->value), $this->scripts);
+        $css_files = array_merge($this->context->smarty->tpl_vars['css_files']->value, $this->stylesheets);
+        $js_inline = array_merge($this->context->smarty->tpl_vars['js_inline']->value, $this->js);
+        $css_inline = $this->css;
 
         $this->helper->updateDoc(
             'utf-8',
@@ -106,10 +138,10 @@ class EtdOptimizer extends Module {
             $this->context->smarty->tpl_vars['meta_description']->value,
             $this->context->smarty->tpl_vars['meta_keywords']->value,
             null,
-            $this->context->smarty->tpl_vars['css_files']->value,
-            null,
-            array_flip($this->context->smarty->tpl_vars['js_files']->value),
-            $this->context->smarty->tpl_vars['js_inline']->value
+            $css_files,
+            $css_inline,
+            $js_files,
+            $js_inline
         );
 
         $head = $this->helper->getPart('head');
