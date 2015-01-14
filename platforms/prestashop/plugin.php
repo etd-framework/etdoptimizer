@@ -23,6 +23,7 @@ define('PARAM_MOBILE_TABLETS', 'ETDOPTIMIZER_MOBILE_TABLETS');
 define('PARAM_MOBILE_REDIRECT', 'ETDOPTIMIZER_MOBILE_REDIRECT');
 define('PARAM_MOBILE_TEMPLATE', 'ETDOPTIMIZER_MOBILE_TEMPLATE');
 define('PARAM_MINIFY', 'ETDOPTIMIZER_MINIFY');
+define('PARAM_GOOGLE_FONTS', 'ETDOPTIMIZER_GOOGLE_FONTS');
 
 /**
  * Module pour optimiser le rendu HTML des pages.
@@ -69,6 +70,7 @@ class EtdOptimizer extends Module {
         Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_REDIRECT', 0);
         Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_TEMPLATE', '');
         Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', 'width=device-width, initial-scale=1.0');
+        Configuration::updateGlobalValue('ETDOPTIMIZER_GOOGLE_FONTS', '');
 
         return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
 
@@ -76,17 +78,9 @@ class EtdOptimizer extends Module {
 
     public function uninstall() {
 
-        Configuration::deleteByName('ETDOPTIMIZER_MODERNIZR');
-        Configuration::deleteByName('ETDOPTIMIZER_JQUERY');
-        Configuration::deleteByName('ETDOPTIMIZER_MINIFY');
-        Configuration::deleteByName('ETDOPTIMIZER_JS_EXCLUDE');
-        Configuration::deleteByName('ETDOPTIMIZER_CSS_EXCLUDE');
-        Configuration::deleteByName('ETDOPTIMIZER_MOBILE_ENABLED');
-        Configuration::deleteByName('ETDOPTIMIZER_MOBILE_TEMPLATE');
-        Configuration::deleteByName('ETDOPTIMIZER_MOBILE_TABLETS');
-        Configuration::deleteByName('ETDOPTIMIZER_MOBILE_REDIRECT');
-        Configuration::deleteByName('ETDOPTIMIZER_MOBILE_URI');
-        Configuration::deleteByName('ETDOPTIMIZER_VIEWPORT');
+        foreach ($this->getConfigFields() as $field) {
+            Configuration::deleteByName($field);
+        }
 
         return parent::uninstall();
     }
@@ -157,6 +151,7 @@ class EtdOptimizer extends Module {
             Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_REDIRECT', (int)Tools::getValue('ETDOPTIMIZER_MOBILE_REDIRECT'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_TEMPLATE', Tools::getValue('ETDOPTIMIZER_MOBILE_TEMPLATE'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', Tools::getValue('ETDOPTIMIZER_VIEWPORT'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_GOOGLE_FONTS', Tools::getValue('ETDOPTIMIZER_GOOGLE_FONTS'));
 
             $html .= $this->displayConfirmation($this->l('Configuration updated'));
 
@@ -333,6 +328,12 @@ class EtdOptimizer extends Module {
                         'label' => $this->l('Tag Viewport'),
                         'name' => 'ETDOPTIMIZER_VIEWPORT',
                         'desc' => $this->l('Valeur de la balise META Viewport')
+                    ),
+                    array(
+                        'type' => 'text',
+                        'label' => $this->l('Google Fonts'),
+                        'name' => 'ETDOPTIMIZER_GOOGLE_FONTS',
+                        'desc' => $this->l('Police Google Fonts à importer. (format: Bree+Serif|Great+Vibes')
                     )
                 ),
                 'submit' => array(
@@ -386,7 +387,8 @@ class EtdOptimizer extends Module {
             'ETDOPTIMIZER_MOBILE_TABLETS',
             'ETDOPTIMIZER_MOBILE_REDIRECT',
             'ETDOPTIMIZER_MOBILE_TEMPLATE',
-            'ETDOPTIMIZER_VIEWPORT'
+            'ETDOPTIMIZER_VIEWPORT',
+            'ETDOPTIMIZER_GOOGLE_FONTS',
         );
 
     }

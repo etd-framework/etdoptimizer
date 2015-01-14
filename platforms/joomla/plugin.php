@@ -24,6 +24,7 @@ define('PARAM_MOBILE_TABLETS', 'mobile_tablets');
 define('PARAM_MOBILE_REDIRECT', 'mobile_redirect');
 define('PARAM_MOBILE_TEMPLATE', 'mobile_template');
 define('PARAM_MINIFY', 'minify');
+define('PARAM_GOOGLE_FONTS', '');
 
 /**
  * Plugin pour optimiser le rendu des pages.

@@ -43,6 +43,12 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 			}
 		}
 
+		// On traite les polices Google.
+		$fonts = $this->helper->getParam(PARAM_GOOGLE_FONTS);
+		if (!empty($fonts)) {
+			echo "<link rel=\"stylesheet\" href=\"http://fonts.googleapis.com/css?family=" . trim($fonts) . "\">\n";
+		}
+
 		// On traite les feuilles de styles.
 		if ($this->helper->hasDocStylesheets()) {
 
