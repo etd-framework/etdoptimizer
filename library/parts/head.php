@@ -53,7 +53,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		if ($this->helper->hasDocStylesheets()) {
 
 			$css_exclude = explode(',', $this->helper->getParam(PARAM_CSS_EXCLUDE));
-			array_map('trim', $css_exclude);
+			$css_exclude = array_map('trim', $css_exclude);
 
 			foreach($this->helper->getDocStylesheets() as $source => $attribs) {
 
