@@ -18,7 +18,7 @@ $platform = '';
 // Joomla
 // ------------
 
-if (defined('JEXEC')) {
+if (defined('_JEXEC')) {
     $platform = 'joomla';
 }
 
