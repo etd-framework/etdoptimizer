@@ -78,7 +78,7 @@ class EtdOptimizer extends Module {
         Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', 'width=device-width, initial-scale=1.0');
         Configuration::updateGlobalValue('ETDOPTIMIZER_GOOGLE_FONTS', '');
 
-        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS')  && $this->registerHook('actionEtdOptimizerAddScript') && $this->registerHook('actionEtdOptimizerAddCSS') && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('actionEtdOptimizerAddCustom') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
+        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS') && $this->registerHook('actionEtdOptimizerAddCSS') && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('actionEtdOptimizerAddCustom') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
 
     }
 
@@ -130,7 +130,7 @@ class EtdOptimizer extends Module {
 
     }
 
-    public function hookActionEtdOptimizerAddStyleSheet($params) {
+    public function hooheet($params) {
 
         $this->stylesheets[$params['src']] = 'all';
 
@@ -142,6 +142,25 @@ class EtdOptimizer extends Module {
         $css_files = array_merge($this->context->smarty->tpl_vars['css_files']->value, $this->stylesheets);
         $js_inline = array_merge($this->context->smarty->tpl_vars['js_inline']->value, $this->js);
         $css_inline = $this->css;
+
+        // JS Def
+        $js_def = MediaCore::getJsDef();
+        if (count($js_def)) {
+            $buffer = "";
+            while (current($js_def) !== false) {
+                $key = key($js_def);
+                $value = current($js_def);
+                if (!empty($key)) {
+                    $buffer .= $key ." = ";
+                }
+                $buffer .= json_encode($value);
+                if (next($js_def) !== false) {
+                    $buffer .= ",\n";
+                }
+            }
+            $buffer .= ";\n";
+            array_unshift($js_inline, $buffer);
+        }
 
         $this->helper->updateDoc(
             'utf-8',
