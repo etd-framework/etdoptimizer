@@ -98,8 +98,15 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 			}
 		}
 
-		if ($this->helper->getParam(PARAM_MODERNIZR) && !$this->helper->getParam(PARAM_IS_MOBILE))
+		if ($this->helper->getParam(PARAM_MODERNIZR) && !$this->helper->getParam(PARAM_IS_MOBILE)) {
 			echo "<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/modernizr/modernizr.min.js\"></script>";
+		}
+
+		if ($this->helper->hasDocCustom()) {
+			foreach ($this->helper->getDocCustom() as $custom)  {
+				echo $custom . "\n";
+			}
+		}
 
 		return ob_get_clean();
 		

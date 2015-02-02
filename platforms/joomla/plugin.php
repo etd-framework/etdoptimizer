@@ -131,7 +131,8 @@ class plgSystemEtdOptimizer extends JPlugin {
             $doc->_stylesheets,
             $doc->_styles,
             $doc->_scripts,
-            $doc->_script
+            $doc->_script,
+            $doc->_custom
         );
 
 		// On récupère toutes les parties gérées par le plugin.

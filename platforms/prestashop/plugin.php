@@ -36,6 +36,7 @@ class EtdOptimizer extends Module {
     private $css = array();
     private $js = array();
     private $scripts = array();
+    private $custom = array();
 
     public function __construct() {
 
@@ -77,7 +78,7 @@ class EtdOptimizer extends Module {
         Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', 'width=device-width, initial-scale=1.0');
         Configuration::updateGlobalValue('ETDOPTIMIZER_GOOGLE_FONTS', '');
 
-        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS')  && $this->registerHook('actionEtdOptimizerAddScript') && $this->registerHook('actionEtdOptimizerAddCSS')  && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
+        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS')  && $this->registerHook('actionEtdOptimizerAddScript') && $this->registerHook('actionEtdOptimizerAddCSS') && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('actionEtdOptimizerAddCustom') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
 
     }
 
@@ -94,6 +95,16 @@ class EtdOptimizer extends Module {
 
         // On ajoute le dossier des plugins Smarty.
         $this->context->smarty->addPluginsDir($this->local_path."platforms/prestashop/smarty");
+
+    }
+
+    public function hookActionEtdOptimizerAddCustom($params) {
+
+        $custom = trim($params['custom']);
+
+        if (!in_array($custom, $this->custom)) {
+            $this->custom[] = $custom;
+        }
 
     }
 
@@ -141,7 +152,8 @@ class EtdOptimizer extends Module {
             $css_files,
             $css_inline,
             $js_files,
-            $js_inline
+            $js_inline,
+            $this->custom
         );
 
         $head = $this->helper->getPart('head');

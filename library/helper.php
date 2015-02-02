@@ -63,6 +63,11 @@ class EtdOptimizerHelper {
     /**
      * @var array
      */
+    protected $docCustom;
+
+    /**
+     * @var array
+     */
     protected $docLinks;
 
     /**
@@ -366,6 +371,27 @@ class EtdOptimizerHelper {
         $this->vendorURI = $vendorURI;
     }
 
+    public function hasDocCustom() {
+
+        return !empty($this->docCustom);
+    }
+
+    /**
+     * @return array
+     */
+    public function getDocCustom() {
+
+        return $this->docCustom;
+    }
+
+    /**
+     * @param array $docCustom
+     */
+    public function setDocCustom($docCustom) {
+
+        $this->docCustom = $docCustom;
+    }
+
     /**
      * Méthode pour mettre à jour les infos en bloc concernant le document.
      *
@@ -378,8 +404,9 @@ class EtdOptimizerHelper {
      * @param $docStyles
      * @param $docScripts
      * @param $docScript
+     * @param $docCustom
      */
-    public function updateDoc($charset, $docTitle, $docDescription, $docKeywords, $docLinks, $docStylesheets, $docStyles, $docScripts, $docScript) {
+    public function updateDoc($charset, $docTitle, $docDescription, $docKeywords, $docLinks, $docStylesheets, $docStyles, $docScripts, $docScript, $docCustom) {
 
         $this->charset = $charset;
         $this->docTitle = $docTitle;
@@ -390,6 +417,7 @@ class EtdOptimizerHelper {
         $this->docStyles = $docStyles;
         $this->docScripts = $docScripts;
         $this->docScript = $docScript;
+        $this->docCustom = $docCustom;
     }
 
     public function isMobile($currentHost) {
