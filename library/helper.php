@@ -444,7 +444,7 @@ class EtdOptimizerHelper {
             $replace = array();
 
             foreach ($files as $file) {
-                $name = strtolower(preg_replace('#\.[^.]*$#', '', $file));
+                $name = basename(strtolower(preg_replace('#\.[^.]*$#', '', $file)));
 
                 // On vérifie que l'on a besoin de bosser.
                 if (strpos($content, '<etdoptimizer:' . $name) === false) {
@@ -473,7 +473,7 @@ class EtdOptimizerHelper {
 
     public function getParts() {
 
-        return glob($this->basePath . "/library/parts/*.php");
+        return glob($this->basePath . "library/parts/*.php");
 
     }
 

@@ -36,7 +36,9 @@ class plgSystemEtdOptimizer extends JPlugin {
 
 	private $helper;
 
-	function __construct() {
+	function __construct(&$subject, $config = array()) {
+
+        parent::__construct($subject, $config);
 
         $app = JFactory::getApplication();
 		$template = $app->getTemplate();
@@ -128,8 +130,8 @@ class plgSystemEtdOptimizer extends JPlugin {
             $doc->getDescription(),
             $doc->getMetaData('keywords'),
             $doc->_links,
-            $doc->_stylesheets,
-            $doc->_styles,
+            $doc->_styleSheets,
+            $doc->_style,
             $doc->_scripts,
             $doc->_script,
             $doc->_custom
