@@ -130,7 +130,7 @@ class EtdOptimizer extends Module {
 
     }
 
-    public function hooheet($params) {
+    public function hookActionEtdOptimizerAddStylesheet($params) {
 
         $this->stylesheets[$params['src']] = 'all';
 
