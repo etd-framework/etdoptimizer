@@ -32,11 +32,11 @@ class EtdOptimizer extends Module {
 
     private $helper;
 
-    private $stylesheets = array();
-    private $css = array();
-    private $js = array();
-    private $scripts = array();
-    private $custom = array();
+    public static $stylesheets = array();
+    public static $css = array();
+    public static $js = array();
+    public static $scripts = array();
+    public static $custom = array();
 
     public function __construct() {
 
@@ -102,65 +102,41 @@ class EtdOptimizer extends Module {
 
         $custom = trim($params['custom']);
 
-        if (!in_array($custom, $this->custom)) {
-            $this->custom[] = $custom;
+        if (!in_array($custom, self::$custom)) {
+            self::$custom[] = $custom;
         }
 
     }
 
     public function hookActionEtdOptimizerAddJS($params) {
 
-        if (!in_array($params['js'], $this->js)) {
-            $this->js[] = $params['js'];
+        if (!in_array($params['js'], self::$js)) {
+            self::$js[] = $params['js'];
         }
 
     }
 
     public function hookActionEtdOptimizerAddScript($params) {
 
-        $this->scripts[$params['src']] = '';
+        self::$scripts[$params['src']] = '';
 
     }
 
     public function hookActionEtdOptimizerAddCSS($params) {
 
-        if (!in_array($params['css'], $this->css)) {
-            $this->css[] = $params['css'];
+        if (!in_array($params['css'], self::$css)) {
+            self::$css[] = $params['css'];
         }
 
     }
 
     public function hookActionEtdOptimizerAddStylesheet($params) {
 
-        $this->stylesheets[$params['src']] = 'all';
+        self::$stylesheets[$params['src']] = 'all';
 
     }
 
     public function hookDisplayEtdOptimizerHead() {
-
-        $js_files  = array_merge(array_flip($this->context->smarty->tpl_vars['js_files']->value), $this->scripts);
-        $css_files = array_merge($this->context->smarty->tpl_vars['css_files']->value, $this->stylesheets);
-        $js_inline = array_merge($this->context->smarty->tpl_vars['js_inline']->value, $this->js);
-        $css_inline = $this->css;
-
-        // JS Def
-        $js_def = MediaCore::getJsDef();
-        if (count($js_def)) {
-            $buffer = "var ";
-            while (current($js_def) !== false) {
-                $key = key($js_def);
-                $value = current($js_def);
-                if (!empty($key)) {
-                    $buffer .= $key ." = ";
-                }
-                $buffer .= json_encode($value);
-                if (next($js_def) !== false) {
-                    $buffer .= ",\n";
-                }
-            }
-            $buffer .= ";\n";
-            array_unshift($js_inline, $buffer);
-        }
 
         $this->helper->updateDoc(
             'utf-8',
@@ -168,11 +144,54 @@ class EtdOptimizer extends Module {
             $this->context->smarty->tpl_vars['meta_description']->value,
             $this->context->smarty->tpl_vars['meta_keywords']->value,
             null,
-            $css_files,
-            $css_inline,
-            $js_files,
-            $js_inline,
-            $this->custom
+            function() {
+
+                $context = Context::getContext();
+                return array_merge($context->smarty->tpl_vars['css_files']->value, EtdOptimizer::$stylesheets);
+
+            },
+            function() {
+
+                return EtdOptimizer::$css;
+
+            },
+            function() {
+
+                $context = Context::getContext();
+                return array_merge(array_flip($context->smarty->tpl_vars['js_files']->value), EtdOptimizer::$scripts);
+
+            },
+            function() {
+
+                $context = Context::getContext();
+                $js_inline = array_merge($context->smarty->tpl_vars['js_inline']->value, EtdOptimizer::$js);
+
+                // JS Def
+                $js_def = Media::getJsDef();
+                if (count($js_def)) {
+                    $buffer = "var ";
+                    while (current($js_def) !== false) {
+                        $key = key($js_def);
+                        $value = current($js_def);
+                        if (!empty($key)) {
+                            $buffer .= $key ." = ";
+                        }
+                        $buffer .= json_encode($value);
+                        if (next($js_def) !== false) {
+                            $buffer .= ",\n";
+                        }
+                    }
+                    $buffer .= ";\n";
+                    array_unshift($js_inline, $buffer);
+                }
+
+                return $js_inline;
+            },
+            function () {
+
+                return EtdOptimizer::$custom;
+
+            }
         );
 
         $head = $this->helper->getPart('head');

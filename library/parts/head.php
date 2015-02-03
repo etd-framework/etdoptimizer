@@ -20,12 +20,14 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		echo "<meta charset=\"" . $this->helper->getCharset() . "\">\n";
 		echo "<title>" . htmlspecialchars($this->helper->getDocTitle(), ENT_COMPAT, $this->helper->getCharset()) . "</title>\n";
 
-		if ($this->helper->hasDocDescription()) {
-			echo "<meta name=\"description\" content=\"" . htmlspecialchars($this->helper->getDocDescription(), ENT_COMPAT, $this->helper->getCharset()) . "\">\n";
+		$docDescription = $this->helper->getDocDescription();
+		if (!empty($docDescription)) {
+			echo "<meta name=\"description\" content=\"" . htmlspecialchars($docDescription, ENT_COMPAT, $this->helper->getCharset()) . "\">\n";
 		}
 
-		if ($this->helper->hasDocKeywords()) {
-			echo "<meta name=\"keywords\" content=\"" . htmlspecialchars($this->helper->getDocKeywords(), ENT_COMPAT, $this->helper->getCharset()) . "\">\n";
+		$docKeywords = $this->helper->getDocKeywords();
+		if (!empty($docKeywords)) {
+			echo "<meta name=\"keywords\" content=\"" . htmlspecialchars($docKeywords, ENT_COMPAT, $this->helper->getCharset()) . "\">\n";
 		}
 
         $viewport = $this->helper->getParam(PARAM_VIEWPORT);
@@ -33,8 +35,9 @@ class EtdOptimizerHead extends EtdOptimizerPart {
             echo "<meta name=\"viewport\" content=\"" . $viewport . "\">\n";
         }
 
-		if ($this->helper->hasDocLinks()) {
-			foreach ($this->helper->getDocLinks() as $link => $linkAtrr) {
+		$docLinks = $this->helper->getDocLinks();
+		if (!empty($docLinks)) {
+			foreach ($docLinks as $link => $linkAtrr) {
 				$attribs = '';
 				if (!empty($linkAtrr['attribs'])) {
 					$attribs = ' ' . EtdOptimizerHelper::ArraytoString($linkAtrr['attribs']);
@@ -50,12 +53,13 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		}
 
 		// On traite les feuilles de styles.
-		if ($this->helper->hasDocStylesheets()) {
+		$docStylesheets = $this->helper->getDocStylesheets();
+		if (!empty($docStylesheets)) {
 
 			$css_exclude = explode(',', $this->helper->getParam(PARAM_CSS_EXCLUDE));
 			$css_exclude = array_map('trim', $css_exclude);
 
-			foreach($this->helper->getDocStylesheets() as $source => $attribs) {
+			foreach($docStylesheets as $source => $attribs) {
 
 				// On récupère le chemin et nom de fichier depuis l'URL.
 				$path = str_replace($this->helper->getRootURI(), '/', $source);
@@ -86,8 +90,9 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 			}
 		}
 
-		if ($this->helper->hasDocStyles()) {
-			foreach ($this->helper->getDocStyles() as $type => $content) {
+		$docStyles = $this->helper->getDocStyles();
+		if (!empty($docStyles)) {
+			foreach ($docStyles as $type => $content) {
 				if (!empty($content)) {
 					if ($this->helper->getParam(PARAM_MINIFY)) {
 						$minifier = new MatthiasMullie\Minify\CSS($content);
@@ -102,8 +107,9 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 			echo "<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/modernizr/modernizr.min.js\"></script>";
 		}
 
-		if ($this->helper->hasDocCustom()) {
-			foreach ($this->helper->getDocCustom() as $custom)  {
+		$docCustom = $this->helper->getDocCustom();
+		if (!empty($docCustom)) {
+			foreach ($docCustom as $custom)  {
 				echo $custom . "\n";
 			}
 		}

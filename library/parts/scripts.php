@@ -22,7 +22,8 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
         }
 
         // On traite les fichiers.
-        if ($this->helper->hasDocScripts()) {
+        $docScripts = $this->helper->getDocScripts();
+        if (!empty($docScripts)) {
 
             $js_exclude = explode(',', $this->helper->getParam(PARAM_JS_EXCLUDE));
             $js_exclude = array_map('trim', $js_exclude);
@@ -35,7 +36,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
                 $js_exclude = array_merge($js_exclude, array('jquery-1.11.0.min.js', 'jquery-migrate-1.2.1.min.js', 'jquery.min.js', 'jquery-noconflict.js', 'jquery-migrate.min.js'));
             }
 
-            foreach ($this->helper->getDocScripts() as $source => $attribs) {
+            foreach ($docScripts as $source => $attribs) {
 
                 // On récupère le chemin et nom de fichier depuis l'URL.
                 $path = str_replace($this->helper->getRootURI(), '/', $source);
@@ -67,9 +68,10 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
         }
 
         // On traite les scripts en ligne.
-        if ($this->helper->hasDocScript()) {
+        $docScript = $this->helper->getDocScript();
+        if (!empty($docScript)) {
             $script = "";
-            foreach ($this->helper->getDocScript() as $content) {
+            foreach ($docScript as $content) {
                 $script .= $content . "\n";
             }
             if (!empty($script)) {

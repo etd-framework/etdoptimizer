@@ -208,11 +208,6 @@ class EtdOptimizerHelper {
         $this->docDescription = $doc_description;
     }
 
-    public function hasDocDescription() {
-
-        return !empty($this->doc_description);
-    }
-
     /**
      * @return string
      */
@@ -229,17 +224,18 @@ class EtdOptimizerHelper {
         $this->docKeywords = $doc_keywords;
     }
 
-    public function hasDocKeywords() {
-
-        return !empty($this->docKeywords);
-    }
-
     /**
      * @return array
      */
     public function getDocLinks() {
 
-        return $this->docLinks;
+        $docLinks = $this->docLinks;
+
+        if (is_callable($docLinks)) {
+            $docLinks = call_user_func($docLinks);
+        }
+
+        return $docLinks;
     }
 
     /**
@@ -250,17 +246,18 @@ class EtdOptimizerHelper {
         $this->docLinks = $doc_links;
     }
 
-    public function hasDocLinks() {
-
-        return !empty($this->docLinks);
-    }
-
     /**
      * @return array
      */
     public function getDocStylesheets() {
 
-        return $this->docStylesheets;
+        $docStylesheets = $this->docStylesheets;
+
+        if (is_callable($docStylesheets)) {
+            $docStylesheets = call_user_func($docStylesheets);
+        }
+
+        return $docStylesheets;
     }
 
     /**
@@ -271,17 +268,18 @@ class EtdOptimizerHelper {
         $this->docStylesheets = $doc_stylesheets;
     }
 
-    public function hasDocStylesheets() {
-
-        return !empty($this->docStylesheets);
-    }
-
     /**
      * @return array
      */
     public function getDocStyles() {
 
-        return $this->docStyles;
+        $docStyles = $this->docStyles;
+
+        if (is_callable($docStyles)) {
+            $docStyles = call_user_func($docStyles);
+        }
+
+        return $docStyles;
     }
 
     /**
@@ -292,17 +290,18 @@ class EtdOptimizerHelper {
         $this->docStyles = $docStyles;
     }
 
-    public function hasDocStyles() {
-
-        return !empty($this->docStyles);
-    }
-
     /**
      * @return array
      */
     public function getDocScripts() {
 
-        return $this->docScripts;
+        $docScripts = $this->docScripts;
+
+        if (is_callable($docScripts)) {
+            $docScripts = call_user_func($docScripts);
+        }
+
+        return $docScripts;
     }
 
     /**
@@ -313,17 +312,18 @@ class EtdOptimizerHelper {
         $this->docScripts = $docScripts;
     }
 
-    public function hasDocScripts() {
-
-        return !empty($this->docScripts);
-    }
-
     /**
      * @return array
      */
     public function getDocScript() {
 
-        return $this->docScript;
+        $docScript = $this->docScript;
+
+        if (is_callable($docScript)) {
+            $docScript = call_user_func($docScript);
+        }
+
+        return $docScript;
     }
 
     /**
@@ -334,9 +334,27 @@ class EtdOptimizerHelper {
         $this->docScript = $docScript;
     }
 
-    public function hasDocScript() {
+    /**
+     * @return array
+     */
+    public function getDocCustom() {
 
-        return !empty($this->docScript);
+        $docCustom = $this->docCustom;
+
+        if (is_callable($docCustom)) {
+            $docCustom = call_user_func($docCustom);
+        }
+
+        return $docCustom;
+
+    }
+
+    /**
+     * @param array $docCustom
+     */
+    public function setDocCustom($docCustom) {
+
+        $this->docCustom = $docCustom;
     }
 
     /**
@@ -369,27 +387,6 @@ class EtdOptimizerHelper {
     public function setVendorURI($vendorURI) {
 
         $this->vendorURI = $vendorURI;
-    }
-
-    public function hasDocCustom() {
-
-        return !empty($this->docCustom);
-    }
-
-    /**
-     * @return array
-     */
-    public function getDocCustom() {
-
-        return $this->docCustom;
-    }
-
-    /**
-     * @param array $docCustom
-     */
-    public function setDocCustom($docCustom) {
-
-        $this->docCustom = $docCustom;
     }
 
     /**
