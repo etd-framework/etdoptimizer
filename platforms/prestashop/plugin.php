@@ -146,7 +146,7 @@ class EtdOptimizer extends Module {
         // JS Def
         $js_def = MediaCore::getJsDef();
         if (count($js_def)) {
-            $buffer = "";
+            $buffer = "var ";
             while (current($js_def) !== false) {
                 $key = key($js_def);
                 $value = current($js_def);
