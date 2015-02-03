@@ -168,16 +168,17 @@ class EtdOptimizer extends Module {
 
                 // JS Def
                 $js_def = Media::getJsDef();
-                if (count($js_def)) {
+                $c = count($js_def);
+                if ($c) {
                     $buffer = "var ";
-                    while (current($js_def) !== false) {
-                        $key = key($js_def);
-                        $value = current($js_def);
+                    $i = 0;
+                    foreach ($js_def as $key => $value) {
+                        $i++;
                         if (!empty($key)) {
                             $buffer .= $key ." = ";
                         }
                         $buffer .= json_encode($value);
-                        if (next($js_def) !== false) {
+                        if ($i < $c) {
                             $buffer .= ",\n";
                         }
                     }
