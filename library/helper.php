@@ -26,6 +26,11 @@ class EtdOptimizerHelper {
     protected $vendorURI;
 
     /**
+     * @var string Chemin vers la racine du site internet.
+     */
+    protected $rootPath;
+
+    /**
      * @var string
      */
     protected $rootURI;
@@ -90,7 +95,7 @@ class EtdOptimizerHelper {
      */
     protected $docScript;
 
-    function __construct($params, $basePath, $vendorURI, $rootURI, $templatePath, $templateUri) {
+    function __construct($params, $basePath, $vendorURI, $rootURI, $templatePath, $templateUri, $rootPath) {
 
          $this->params = $params;
          $this->basePath = rtrim($basePath,"/")."/";
@@ -98,6 +103,7 @@ class EtdOptimizerHelper {
          $this->rootURI = rtrim($rootURI,"/")."/";
          $this->templatePath = rtrim($templatePath,"/")."/";
          $this->templateUri = rtrim($templateUri,"/")."/";
+         $this->rootPath = rtrim($rootPath,"/")."/";
      }
 
     /**
@@ -371,6 +377,22 @@ class EtdOptimizerHelper {
     public function setRootURI($rootURI) {
 
         $this->rootURI = $rootURI;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRootPath() {
+
+        return $this->rootPath;
+    }
+
+    /**
+     * @param string $rootPath
+     */
+    public function setRootPath($rootPath) {
+
+        $this->rootPath = $rootPath;
     }
 
     /**

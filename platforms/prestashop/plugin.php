@@ -59,7 +59,8 @@ class EtdOptimizer extends Module {
             $this->_path."vendor",
             _PS_BASE_URL_,
             _PS_THEME_DIR_,
-            _THEME_DIR_
+            _THEME_DIR_,
+            _PS_ROOT_DIR_
         );
     }
 

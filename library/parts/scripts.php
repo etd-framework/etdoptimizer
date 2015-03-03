@@ -49,17 +49,15 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
 
                 // On remplace les scripts des modules par ceux du template s'ils existent.
                 if (strpos($source, 'modules/') !== false || strpos($source, 'media/jui/js/') !== false || strpos($source, 'media/system/js/') !== false || strpos($source, 'js/') !== false) {
-
-                    $min_js_path = $template_path . 'custom' . str_replace('.js', '.min.js', $path);
-                    $js_path = $template_path . 'custom' . $path;
-
-                    // On regarde si une version minimisée existe.
-                    if (file_exists($min_js_path)) {
-                        $source = $template_uri . 'custom' . str_replace('.js', '.min.js', $path);
-                    } elseif (file_exists($js_path)) { // On regarde pour la version normale.
+                    if (file_exists($template_path . 'custom' . $path)) {
                         $source = $template_uri . 'custom' . $path;
+                        $path = str_replace($this->helper->getRootURI(), '/', $source);
                     }
+                }
 
+                // On regarde si une version minimisée existe.
+                if (file_exists($this->helper->getRootPath().str_replace('.js', '.min.js', substr($path, 1)))) {
+                    $source = str_replace('.js', '.min.js', $source);
                 }
 
                 // On ajoute le script.
