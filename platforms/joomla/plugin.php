@@ -49,7 +49,8 @@ class plgSystemEtdOptimizer extends JPlugin {
             JUri::root(true) . '/plugins/system/etdoptimizer/vendor',
             JUri::root(true),
             JPATH_THEMES . '/' . $template,
-            JUri::root(true) . '/templates/' . $template
+            JUri::root(true) . '/templates/' . $template,
+            JPATH_ROOT
 		);
 	}
 
