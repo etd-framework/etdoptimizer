@@ -10,7 +10,7 @@
     <version>2.0</version>
     <description>Optimisation du rendu des pages.</description>
     <files>
-        <filename plugin="etdoptimize">etdoptimizer.php</filename>
+        <filename plugin="etdoptimizer">etdoptimizer.php</filename>
         <filename>etdoptimizer.xml</filename>
         <filename>index.html</filename>
         <folder>js</folder>
