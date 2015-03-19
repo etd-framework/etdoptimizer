@@ -148,7 +148,11 @@ class EtdOptimizer extends Module {
             function() {
 
                 $context = Context::getContext();
-                return array_merge($context->smarty->tpl_vars['css_files']->value, EtdOptimizer::$stylesheets);
+                $css_files = array();
+                if (array_key_exists('css_files', $context->smarty->tpl_vars)) {
+                    $css_files = $context->smarty->tpl_vars['css_files']->value;
+                }
+                return array_merge($css_files, EtdOptimizer::$stylesheets);
 
             },
             function() {
@@ -159,13 +163,21 @@ class EtdOptimizer extends Module {
             function() {
 
                 $context = Context::getContext();
-                return array_merge(array_flip($context->smarty->tpl_vars['js_files']->value), EtdOptimizer::$scripts);
+                $js_files = array();
+                if (array_key_exists('js_files', $context->smarty->tpl_vars)) {
+                    $js_files = $context->smarty->tpl_vars['js_files']->value;
+                }
+                return array_merge(array_flip($js_files), EtdOptimizer::$scripts);
 
             },
             function() {
 
                 $context = Context::getContext();
-                $js_inline = array_merge($context->smarty->tpl_vars['js_inline']->value, EtdOptimizer::$js);
+                $js_inline = array();
+                if (array_key_exists('js_inline', $context->smarty->tpl_vars)) {
+                    $js_inline = $context->smarty->tpl_vars['js_inline']->value;
+                }
+                $js_inline = array_merge($js_inline, EtdOptimizer::$js);
 
                 // JS Def
                 $js_def = Media::getJsDef();
