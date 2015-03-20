@@ -79,7 +79,7 @@ class EtdOptimizer extends Module {
         Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', 'width=device-width, initial-scale=1.0');
         Configuration::updateGlobalValue('ETDOPTIMIZER_GOOGLE_FONTS', '');
 
-        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS') && $this->registerHook('actionEtdOptimizerAddCSS') && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('actionEtdOptimizerAddCustom') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
+        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS') && $this->registerHook('actionEtdOptimizerAddCSS') && $this->registerHook('actionEtdOptimizerAddScript') && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('actionEtdOptimizerAddCustom') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
 
     }
 
