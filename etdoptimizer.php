@@ -8,7 +8,13 @@
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
 
-include('vendor/autoload.php');
+// On s'assure d'avoir initialisé Composer
+$autoload = realpath(dirname(__FILE__) . '/vendor/autoload.php');
+if (!file_exists($autoload)) {
+    throw new \RuntimeException('Composer n\'est pas correctement installé, exécuter "composer install".');
+}
+
+include($autoload);
 
 /*
  * On détermine la bonne plateforme.
