@@ -13,9 +13,9 @@
         <filename plugin="etdoptimizer">etdoptimizer.php</filename>
         <filename>etdoptimizer.xml</filename>
         <filename>index.html</filename>
-        <folder>js</folder>
         <folder>language</folder>
-        <folder>parts</folder>
+        <folder>library</folder>
+        <folder>platforms</folder>
     </files>
     <config>
         <fields name="params">
