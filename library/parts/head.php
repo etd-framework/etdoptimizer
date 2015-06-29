@@ -38,7 +38,14 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		$docMeta = $this->helper->getDocMeta();
 		if (!empty($docMeta)) {
 			foreach ($docMeta as $name => $content) {
-				echo "<meta name=\"" . $name . "\" content=\"" . $content . "\">\n";
+				$type = "name";
+
+				// Open Graph (FB) ?
+				if (strpos($name, 'og:') !== false) {
+					$type = "property";
+				}
+
+				echo "<meta ".$type."=\"" . $name . "\" content=\"" . $content . "\">\n";
 			}
 		}
 
