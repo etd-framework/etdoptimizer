@@ -8,537 +8,121 @@
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
 
-class EtdOptimizerHelper {
+class EtdOptimizerHead extends EtdOptimizerPart {
+	
+	public function render() {
 
-    /**
-     * @var array Paramètres du plugin.
-     */
-    protected $params;
+		$template_path = $this->helper->getTemplatePath();
+		$template_uri  = $this->helper->getTemplateUri();
 
-    /**
-     * @var string Chemin de base vers le plugin.
-     */
-    protected $basePath;
+		ob_start();
 
-    /**
-     * @var string Chemin de base vers le plugin.
-     */
-    protected $vendorURI;
+		echo "<meta charset=\"" . $this->helper->getCharset() . "\">\n";
+		echo "<title>" . htmlspecialchars($this->helper->getDocTitle(), ENT_COMPAT, $this->helper->getCharset()) . "</title>\n";
 
-    /**
-     * @var string Chemin vers la racine du site internet.
-     */
-    protected $rootPath;
+		$docDescription = $this->helper->getDocDescription();
+		if (!empty($docDescription)) {
+			echo "<meta name=\"description\" content=\"" . htmlspecialchars($docDescription, ENT_COMPAT, $this->helper->getCharset()) . "\">\n";
+		}
 
-    /**
-     * @var string
-     */
-    protected $rootURI;
+		$docKeywords = $this->helper->getDocKeywords();
+		if (!empty($docKeywords)) {
+			echo "<meta name=\"keywords\" content=\"" . htmlspecialchars($docKeywords, ENT_COMPAT, $this->helper->getCharset()) . "\">\n";
+		}
 
-    /**
-     * @var string
-     */
-    protected $templatePath;
-
-    /**
-     * @var string
-     */
-    protected $templateUri;
-
-    /**
-     * @var string
-     */
-    protected $charset;
-
-    /**
-     * @var string
-     */
-    protected $docTitle;
-
-    /**
-     * @var string
-     */
-    protected $docDescription;
-
-    /**
-     * @var string Les mots clés dans le HEAD
-     */
-    protected $docKeywords;
-
-    /**
-     * @var array
-     */
-    protected $docCustom;
-
-    /**
-     * @var array
-     */
-    protected $docLinks;
-
-    /**
-     * @var array
-     */
-    protected $docStylesheets;
-
-    /**
-     * @var array
-     */
-    protected $docStyles;
-
-    /**
-     * @var array
-     */
-    protected $docScripts;
-
-    /**
-     * @var array
-     */
-    protected $docScript;
-
-    function __construct($params, $basePath, $vendorURI, $rootURI, $templatePath, $templateUri, $rootPath) {
-
-         $this->params = $params;
-         $this->basePath = rtrim($basePath,"/")."/";
-         $this->vendorURI = rtrim($vendorURI,"/")."/";
-         $this->rootURI = rtrim($rootURI,"/")."/";
-         $this->templatePath = rtrim($templatePath,"/")."/";
-         $this->templateUri = rtrim($templateUri,"/")."/";
-         $this->rootPath = rtrim($rootPath,"/")."/";
-     }
-
-    /**
-     * @return array
-     */
-    public function getParams() {
-
-        return $this->params;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getParam($param) {
-
-        return array_key_exists($param, $this->params) ? $this->params[$param] : null;
-    }
-
-    /**
-     * @param array $params
-     */
-    public function setParams($params) {
-
-        $this->params = $params;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBasePath() {
-
-        return $this->basePath;
-    }
-
-    /**
-     * @param string $basePath
-     */
-    public function setBasePath($basePath) {
-
-        $this->basePath = $basePath;
-    }
-
-    public function setTemplatePath($path) {
-
-        $this->templatePath = $path;
-    }
-
-    public function getTemplatePath() {
-
-        return $this->templatePath;
-    }
-
-    public function setTemplateUri($uri) {
-
-        $this->templateUri = $uri;
-    }
-
-    public function getTemplateUri() {
-
-        return $this->templateUri;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCharset() {
-
-        return $this->charset;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDocTitle() {
-
-        return $this->docTitle;
-    }
-
-    /**
-     * @param mixed $doc_title
-     */
-    public function setDocTitle($doc_title) {
-
-        $this->docTitle = $doc_title;
-    }
-
-    /**
-     * @param mixed $charset
-     */
-    public function setCharset($charset) {
-
-        $this->charset = $charset;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDocDescription() {
-
-        return $this->docDescription;
-    }
-
-    /**
-     * @param mixed $doc_description
-     */
-    public function setDocDescription($doc_description) {
-
-        $this->docDescription = $doc_description;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDocKeywords() {
-
-        return $this->docKeywords;
-    }
-
-    /**
-     * @param string $doc_keywords
-     */
-    public function setDocKeywords($doc_keywords) {
-
-        $this->docKeywords = $doc_keywords;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDocLinks() {
-
-        $docLinks = $this->docLinks;
-
-        if (is_callable($docLinks)) {
-            $docLinks = call_user_func($docLinks);
+        $viewport = $this->helper->getParam(PARAM_VIEWPORT);
+        if (!empty($viewport)) {
+            echo "<meta name=\"viewport\" content=\"" . $viewport . "\">\n";
         }
 
-        return $docLinks;
-    }
-
-    /**
-     * @param array $doc_links
-     */
-    public function setDocLinks($doc_links) {
-
-        $this->docLinks = $doc_links;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDocStylesheets() {
-
-        $docStylesheets = $this->docStylesheets;
-
-        if (is_callable($docStylesheets)) {
-            $docStylesheets = call_user_func($docStylesheets);
-        }
-
-        return $docStylesheets;
-    }
-
-    /**
-     * @param array $doc_stylesheets
-     */
-    public function setDocStylesheets($doc_stylesheets) {
-
-        $this->docStylesheets = $doc_stylesheets;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDocStyles() {
-
-        $docStyles = $this->docStyles;
-
-        if (is_callable($docStyles)) {
-            $docStyles = call_user_func($docStyles);
-        }
-
-        return $docStyles;
-    }
-
-    /**
-     * @param array $docStyles
-     */
-    public function setDocStyles($docStyles) {
-
-        $this->docStyles = $docStyles;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDocScripts() {
-
-        $docScripts = $this->docScripts;
-
-        if (is_callable($docScripts)) {
-            $docScripts = call_user_func($docScripts);
-        }
-
-        return $docScripts;
-    }
-
-    /**
-     * @param array $docScripts
-     */
-    public function setDocScripts($docScripts) {
-
-        $this->docScripts = $docScripts;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDocScript() {
-
-        $docScript = $this->docScript;
-
-        if (is_callable($docScript)) {
-            $docScript = call_user_func($docScript);
-        }
-
-        return $docScript;
-    }
-
-    /**
-     * @param array $docScript
-     */
-    public function setDocScript($docScript) {
-
-        $this->docScript = $docScript;
-    }
-
-    /**
-     * @return array
-     */
-    public function getDocCustom() {
-
-        $docCustom = $this->docCustom;
-
-        if (is_callable($docCustom)) {
-            $docCustom = call_user_func($docCustom);
-        }
-
-        return $docCustom;
-
-    }
-
-    /**
-     * @param array $docCustom
-     */
-    public function setDocCustom($docCustom) {
-
-        $this->docCustom = $docCustom;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRootURI() {
-
-        return $this->rootURI;
-    }
-
-    /**
-     * @param string $rootURI
-     */
-    public function setRootURI($rootURI) {
-
-        $this->rootURI = $rootURI;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRootPath() {
-
-        return $this->rootPath;
-    }
-
-    /**
-     * @param string $rootPath
-     */
-    public function setRootPath($rootPath) {
-
-        $this->rootPath = $rootPath;
-    }
-
-    /**
-     * @return string
-     */
-    public function getVendorURI() {
-
-        return $this->vendorURI;
-    }
-
-    /**
-     * @param string $vendorURI
-     */
-    public function setVendorURI($vendorURI) {
-
-        $this->vendorURI = $vendorURI;
-    }
-
-    /**
-     * Méthode pour mettre à jour les infos en bloc concernant le document.
-     *
-     * @param $charset
-     * @param $docTitle
-     * @param $docDescription
-     * @param $docKeywords
-     * @param $docLinks
-     * @param $docStylesheets
-     * @param $docStyles
-     * @param $docScripts
-     * @param $docScript
-     * @param $docCustom
-     */
-    public function updateDoc($charset, $docTitle, $docDescription, $docKeywords, $docLinks, $docStylesheets, $docStyles, $docScripts, $docScript, $docCustom) {
-
-        $this->charset = $charset;
-        $this->docTitle = $docTitle;
-        $this->docDescription = $docDescription;
-        $this->docKeywords = $docKeywords;
-        $this->docLinks = $docLinks;
-        $this->docStylesheets = $docStylesheets;
-        $this->docStyles = $docStyles;
-        $this->docScripts = $docScripts;
-        $this->docScript = $docScript;
-        $this->docCustom = $docCustom;
-    }
-
-    public function isMobile($currentHost) {
-
-        $mobileHost = parse_url($this->params[PARAM_MOBILE_URI])['host'];
-
-        if (!class_exists('uagent_info')) {
-            throw new RuntimeException(sprintf('Classe non trouvée : %s', 'uagent_info'), 500);
-        }
-
-        // On instancie le détecteur.
-        $ua = new uagent_info();
-
-        return (($ua->isMobilePhone || $ua->isTierIphone) || ($this->params[PARAM_MOBILE_TABLETS] && $ua->isTierTablet) || ($currentHost == $mobileHost));
-
-    }
-
-    public function replaceParts($content) {
-
-        $files = EtdOptimizerHelper::getParts();
-        if (!empty($files)) {
-
-            // On initialise le tableau de remplacement.
-            $replace = array();
-
-            foreach ($files as $file) {
-                $name = basename(strtolower(preg_replace('#\.[^.]*$#', '', $file)));
-
-                // On vérifie que l'on a besoin de bosser.
-                if (strpos($content, '<etdoptimizer:' . $name) === false) {
-                    break;
-                }
-
-                $instance = self::getPart($name);
-                if ($instance) {
-                    $replace['/<etdoptimizer:' . $name . '\s*?\/>/i'] = $instance->render();
-                } else {
-                    $replace['/<etdoptimizer:' . $name . '\s*?\/>/i'] = '<!-- impossible de trouver la partie ' . $name . ' -->';
-                }
-            }
-
-            // On remplace les occurences.
-            $content = preg_replace(array_keys($replace), $replace, $content);
-
-        }
-
-        // On remplace les balises non gérées.
-        $content = preg_replace('/<etdoptimizer:[a-z]*?(\s*)?\/>/i', '', $content);
-
-        return $content;
-
-    }
-
-    public function getParts() {
-
-        return glob($this->basePath . "library/parts/*.php");
-
-    }
-
-    public function getPart($type) {
-
-        $type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-        $partClass = 'EtdOptimizer' . ucfirst($type);
-
-        if (!class_exists($partClass)) {
-            throw new RuntimeException(sprintf('Classe part non trouvée : %s', $partClass), 500);
-        }
-
-        return new $partClass($this);
-    }
-
-    /**
-     * Utility function to map an array to a string.
-     *
-     * @param   array $array The array to map.
-     * @param   string $inner_glue The glue (optional, defaults to '=') between the key and the value.
-     * @param   string $outer_glue The glue (optional, defaults to ' ') between array elements.
-     * @param   boolean $keepOuterKey True if final key should be kept.
-     *
-     * @return  string   The string mapped from the given array
-     *
-     * @since   11.1
-     */
-    public static function ArraytoString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false) {
-
-        $output = array();
-
-        if (is_array($array)) {
-            foreach ($array as $key => $item) {
-                if (is_array($item)) {
-                    if ($keepOuterKey) {
-                        $output[] = $key;
-                    }
-                    // This is value is an array, go and do it again!
-                    $output[] = EtdOptimizerHelper::ArraytoString($item, $inner_glue, $outer_glue, $keepOuterKey);
-                } else {
-                    $output[] = $key . $inner_glue . '"' . $item . '"';
-                }
-            }
-        }
-
-        return implode($outer_glue, $output);
-    }
-
+		$docMeta = $this->helper->getDocMeta();
+		if (!empty($docMeta)) {
+			foreach ($docMeta as $name => $content) {
+				echo "<meta name=\"" . $name . "\" content=\"" . $content . "\">\n";
+			}
+		}
+
+		$docLinks = $this->helper->getDocLinks();
+		if (!empty($docLinks)) {
+			foreach ($docLinks as $link => $linkAtrr) {
+				$attribs = '';
+				if (!empty($linkAtrr['attribs'])) {
+					$attribs = ' ' . EtdOptimizerHelper::ArraytoString($linkAtrr['attribs']);
+				}
+				echo "<link href=\"" . $link . "\" " . $linkAtrr['relType'] . "=\"" . $linkAtrr['relation'] . "\"" . $attribs . ">\n";
+			}
+		}
+
+		// On traite les polices Google.
+		$fonts = $this->helper->getParam(PARAM_GOOGLE_FONTS);
+		if (!empty($fonts)) {
+			echo "<link rel=\"stylesheet\" href=\"http://fonts.googleapis.com/css?family=" . trim($fonts) . "\">\n";
+		}
+
+		// On traite les feuilles de styles.
+		$docStylesheets = $this->helper->getDocStylesheets();
+		if (!empty($docStylesheets)) {
+
+			$css_exclude = explode(',', $this->helper->getParam(PARAM_CSS_EXCLUDE));
+			$css_exclude = array_map('trim', $css_exclude);
+
+			foreach($docStylesheets as $source => $attribs) {
+
+				// On récupère le chemin et nom de fichier depuis l'URL.
+				$path = str_replace($this->helper->getRootURI(), '/', $source);
+				$file = substr($source, strrpos($source, '/')+1);
+
+				// On retire les fichiers exclus.
+				if (in_array($file, $css_exclude)) {
+					continue;
+				}
+
+				// On remplace les scripts des modules par ceux du template s'ils existent.
+				if (strpos($source, 'modules/') !== false || strpos($source, 'media/jui/css/') !== false || strpos($source, 'media/system/css/') !== false) {
+
+					$min_css_path = $template_path . 'custom' . str_replace('.css', '.min.css', $path);
+					$css_path = $template_path . 'custom' . $path;
+
+					// On regarde si une version minimisée existe.
+					if (file_exists($min_css_path)) {
+						$source = $template_uri . 'custom' . str_replace('.css', '.min.css', $path);
+					} elseif (file_exists($css_path)) { // On regarde pour la version normale.
+						$source = $template_uri . 'custom' . $path;
+					}
+
+				}
+
+				// On ajoute le script.
+				echo "<link rel=\"stylesheet\" href=\"" . $source . "\">\n";
+			}
+		}
+
+		$docStyles = $this->helper->getDocStyles();
+		if (!empty($docStyles)) {
+			foreach ($docStyles as $type => $content) {
+				if (!empty($content)) {
+					if ($this->helper->getParam(PARAM_MINIFY)) {
+						$minifier = new MatthiasMullie\Minify\CSS($content);
+						$content = $minifier->minify();
+					}
+					echo "<style type=\"" . $type . "\">\n" . $content . "</style>\n";
+				}
+			}
+		}
+
+		if ($this->helper->getParam(PARAM_MODERNIZR) && !$this->helper->getParam(PARAM_IS_MOBILE)) {
+			echo "<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/modernizr/modernizr.min.js\"></script>";
+		}
+
+		$docCustom = $this->helper->getDocCustom();
+		if (!empty($docCustom)) {
+			foreach ($docCustom as $custom)  {
+				echo $custom . "\n";
+			}
+		}
+
+		return ob_get_clean();
+		
+	}
+	
 }
