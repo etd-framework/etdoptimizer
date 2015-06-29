@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package      ETD Optimizer
  *
@@ -7,7 +8,6 @@
  * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
-
 class EtdOptimizerHelper {
 
     /**
@@ -73,6 +73,11 @@ class EtdOptimizerHelper {
     /**
      * @var array
      */
+    protected $docMeta;
+
+    /**
+     * @var array
+     */
     protected $docLinks;
 
     /**
@@ -97,14 +102,14 @@ class EtdOptimizerHelper {
 
     function __construct($params, $basePath, $vendorURI, $rootURI, $templatePath, $templateUri, $rootPath) {
 
-         $this->params = $params;
-         $this->basePath = rtrim($basePath,"/")."/";
-         $this->vendorURI = rtrim($vendorURI,"/")."/";
-         $this->rootURI = rtrim($rootURI,"/")."/";
-         $this->templatePath = rtrim($templatePath,"/")."/";
-         $this->templateUri = rtrim($templateUri,"/")."/";
-         $this->rootPath = rtrim($rootPath,"/")."/";
-     }
+        $this->params       = $params;
+        $this->basePath     = rtrim($basePath, "/") . "/";
+        $this->vendorURI    = rtrim($vendorURI, "/") . "/";
+        $this->rootURI      = rtrim($rootURI, "/") . "/";
+        $this->templatePath = rtrim($templatePath, "/") . "/";
+        $this->templateUri  = rtrim($templateUri, "/") . "/";
+        $this->rootPath     = rtrim($rootPath, "/") . "/";
+    }
 
     /**
      * @return array
@@ -364,6 +369,29 @@ class EtdOptimizerHelper {
     }
 
     /**
+     * @return array
+     */
+    public function getDocMeta() {
+
+        $docMeta = $this->docMeta;
+
+        if (is_callable($docMeta)) {
+            $docMeta = call_user_func($docMeta);
+        }
+
+        return $docMeta;
+
+    }
+
+    /**
+     * @param array $docMeta
+     */
+    public function setDocMeta($docMeta) {
+
+        $this->docMeta = $docMeta;
+    }
+
+    /**
      * @return string
      */
     public function getRootURI() {
@@ -424,19 +452,21 @@ class EtdOptimizerHelper {
      * @param $docScripts
      * @param $docScript
      * @param $docCustom
+     * @param $docMeta
      */
-    public function updateDoc($charset, $docTitle, $docDescription, $docKeywords, $docLinks, $docStylesheets, $docStyles, $docScripts, $docScript, $docCustom) {
+    public function updateDoc($charset, $docTitle, $docDescription, $docKeywords, $docLinks, $docStylesheets, $docStyles, $docScripts, $docScript, $docCustom, $docMeta) {
 
-        $this->charset = $charset;
-        $this->docTitle = $docTitle;
+        $this->charset        = $charset;
+        $this->docTitle       = $docTitle;
         $this->docDescription = $docDescription;
-        $this->docKeywords = $docKeywords;
-        $this->docLinks = $docLinks;
+        $this->docKeywords    = $docKeywords;
+        $this->docLinks       = $docLinks;
         $this->docStylesheets = $docStylesheets;
-        $this->docStyles = $docStyles;
-        $this->docScripts = $docScripts;
-        $this->docScript = $docScript;
-        $this->docCustom = $docCustom;
+        $this->docStyles      = $docStyles;
+        $this->docScripts     = $docScripts;
+        $this->docScript      = $docScript;
+        $this->docCustom      = $docCustom;
+        $this->docMeta        = $docMeta;
     }
 
     public function isMobile($currentHost) {
@@ -498,7 +528,7 @@ class EtdOptimizerHelper {
 
     public function getPart($type) {
 
-        $type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+        $type      = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
         $partClass = 'EtdOptimizer' . ucfirst($type);
 
         if (!class_exists($partClass)) {
@@ -511,9 +541,9 @@ class EtdOptimizerHelper {
     /**
      * Utility function to map an array to a string.
      *
-     * @param   array $array The array to map.
-     * @param   string $inner_glue The glue (optional, defaults to '=') between the key and the value.
-     * @param   string $outer_glue The glue (optional, defaults to ' ') between array elements.
+     * @param   array   $array        The array to map.
+     * @param   string  $inner_glue   The glue (optional, defaults to '=') between the key and the value.
+     * @param   string  $outer_glue   The glue (optional, defaults to ' ') between array elements.
      * @param   boolean $keepOuterKey True if final key should be kept.
      *
      * @return  string   The string mapped from the given array

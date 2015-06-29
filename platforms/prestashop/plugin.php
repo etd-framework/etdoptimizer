@@ -205,7 +205,8 @@ class EtdOptimizer extends Module {
 
                 return EtdOptimizer::$custom;
 
-            }
+            },
+            array()
         );
 
         $head = $this->helper->getPart('head');

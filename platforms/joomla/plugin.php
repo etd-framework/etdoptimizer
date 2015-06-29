@@ -34,16 +34,16 @@ define('PARAM_GOOGLE_FONTS', '');
  */
 class plgSystemEtdOptimizer extends JPlugin {
 
-	private $helper;
+    private $helper;
 
-	function __construct(&$subject, $config = array()) {
+    function __construct(&$subject, $config = array()) {
 
         parent::__construct($subject, $config);
 
         $app = JFactory::getApplication();
-		$template = $app->getTemplate();
+        $template = $app->getTemplate();
 
-		$this->helper = new EtdOptimizerHelper(
+        $this->helper = new EtdOptimizerHelper(
             $this->params->toArray(),
             JPATH_PLUGINS.'/system/etdoptimizer',
             JUri::root(true) . '/plugins/system/etdoptimizer/vendor',
@@ -51,20 +51,20 @@ class plgSystemEtdOptimizer extends JPlugin {
             JPATH_THEMES . '/' . $template,
             JUri::root(true) . '/templates/' . $template,
             JPATH_ROOT
-		);
-	}
+        );
+    }
 
-	public function onAfterRoute() {
+    public function onAfterRoute() {
 
         $app = JFactory::getApplication();
 
-		// On utilise ce plugin que dans l'application Site.
-		if ($app->isAdmin()) {
-			return true;
-		}
+        // On utilise ce plugin que dans l'application Site.
+        if ($app->isAdmin()) {
+            return true;
+        }
 
-	    // Si la détection mobile est activée
-	    if ($this->params->get(PARAM_MOBILE_ENABLED, 0)) {
+        // Si la détection mobile est activée
+        if ($this->params->get(PARAM_MOBILE_ENABLED, 0)) {
 
             // On récupère les URI.
             $currentUri = JUri::getInstance();
@@ -95,36 +95,47 @@ class plgSystemEtdOptimizer extends JPlugin {
                     $app->setTemplate($template);
                 }
 
-			}
+            }
 
-	    }
+        }
 
         return true;
 
-	}
+    }
 
-	/**
-	 * Plugin qui modifie la page après le rendu.
-	 */
-	public function onAfterRender() {
+    /**
+     * Plugin qui modifie la page après le rendu.
+     */
+    public function onAfterRender() {
 
-		$app = JFactory::getApplication();
+        $app = JFactory::getApplication();
 
-		// On utilise ce plugin que dans l'application Site.
-		if ($app->isAdmin()) {
-			return true;
-		}
+        // On utilise ce plugin que dans l'application Site.
+        if ($app->isAdmin()) {
+            return true;
+        }
 
-		// On récupère le corps de la réponse.
-		$body = JResponse::getBody();
+        // On récupère le corps de la réponse.
+        $body = JResponse::getBody();
 
-		// On vérifie que l'on a quelque chose à faire.
-		if (strpos($body, '<etdoptimizer:') === false) {
-			return true;
-		}
+        // On vérifie que l'on a quelque chose à faire.
+        if (strpos($body, '<etdoptimizer:') === false) {
+            return true;
+        }
 
         // On met à jours les infos dans le helper.
         $doc = JFactory::getDocument();
+
+        $metaTags = array();
+        if (isset($doc->_metaTags['standard']) && !empty($doc->_metaTags['standard'])) {
+            $metaTags = $doc->_metaTags['standard'];
+
+            // On retire les infos inutiles.
+            unset($metaTags['keywords'],
+                $metaTags['rights'],
+                $metaTags['author']);
+        }
+
         $this->helper->updateDoc(
             $doc->getCharset(),
             $doc->getTitle(),
@@ -135,22 +146,23 @@ class plgSystemEtdOptimizer extends JPlugin {
             $doc->_style,
             $doc->_scripts,
             $doc->_script,
-            $doc->_custom
+            $doc->_custom,
+            $metaTags
         );
 
-		// On récupère toutes les parties gérées par le plugin.
-		$body = $this->helper->replaceParts($body);
+        // On récupère toutes les parties gérées par le plugin.
+        $body = $this->helper->replaceParts($body);
 
-		// On vire tous les scripts liés à Mootools.
-		if ($this->params->get(PARAM_MOOTOOLS_LEGACY, '0') == '0' && version_compare( JVERSION, '3.0', '<' )) {
-			$body = preg_replace("/(new JCaption\()(.*)(\);)/isU", "", $body);
-			$body = preg_replace("/(window.addEvent\()(.*)(\);)/isU", "", $body);
-		}
+        // On vire tous les scripts liés à Mootools.
+        if ($this->params->get(PARAM_MOOTOOLS_LEGACY, '0') == '0' && version_compare( JVERSION, '3.0', '<' )) {
+            $body = preg_replace("/(new JCaption\()(.*)(\);)/isU", "", $body);
+            $body = preg_replace("/(window.addEvent\()(.*)(\);)/isU", "", $body);
+        }
 
-		// On définit la réponse.
-		JResponse::setBody($body);
+        // On définit la réponse.
+        JResponse::setBody($body);
 
-	}
+    }
 
 }
 	
