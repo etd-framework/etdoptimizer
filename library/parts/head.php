@@ -9,7 +9,7 @@
  **/
 
 class EtdOptimizerHead extends EtdOptimizerPart {
-
+	
 	public function render() {
 
 		$template_path = $this->helper->getTemplatePath();
@@ -30,10 +30,10 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 			echo "<meta name=\"keywords\" content=\"" . htmlspecialchars($docKeywords, ENT_COMPAT, $this->helper->getCharset()) . "\">\n";
 		}
 
-		$viewport = $this->helper->getParam(PARAM_VIEWPORT);
-		if (!empty($viewport)) {
-			echo "<meta name=\"viewport\" content=\"" . $viewport . "\">\n";
-		}
+        $viewport = $this->helper->getParam(PARAM_VIEWPORT);
+        if (!empty($viewport)) {
+            echo "<meta name=\"viewport\" content=\"" . $viewport . "\">\n";
+        }
 
 		$docMeta = $this->helper->getDocMeta();
 		if (!empty($docMeta)) {
@@ -41,7 +41,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 				$type = "name";
 
 				// Open Graph (FB) ?
-				if (strpos($name, 'og:') !== false) {
+				if (strpos($name, 'og:') === 0 || strpos($name, 'fb:') === 0) {
 					$type = "property";
 				}
 
@@ -102,6 +102,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 				// On ajoute le script.
 				echo "<link rel=\"stylesheet\" href=\"" . $source . "\">\n";
 			}
+
 		}
 
 		$docStyles = $this->helper->getDocStyles();
@@ -129,7 +130,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		}
 
 		return ob_get_clean();
-
+		
 	}
-
+	
 }
