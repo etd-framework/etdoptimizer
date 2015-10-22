@@ -473,14 +473,9 @@ class EtdOptimizerHelper {
 
         $mobileHost = parse_url($this->params[PARAM_MOBILE_URI])['host'];
 
-        if (!class_exists('uagent_info')) {
-            throw new RuntimeException(sprintf('Classe non trouvée : %s', 'uagent_info'), 500);
-        }
+        $md = new Mobile_Detect();
 
-        // On instancie le détecteur.
-        $ua = new uagent_info();
-
-        return (($ua->isMobilePhone || $ua->isTierIphone) || ($this->params[PARAM_MOBILE_TABLETS] && $ua->isTierTablet) || ($currentHost == $mobileHost));
+        return ($md->isMobile() || ($this->params[PARAM_MOBILE_TABLETS] && $md->isTablet()) || ($currentHost == $mobileHost));
 
     }
 
