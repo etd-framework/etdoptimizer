@@ -471,7 +471,7 @@ class EtdOptimizerHelper {
 
     public function isMobile($currentHost) {
 
-        $mobileHost = parse_url($this->params[PARAM_MOBILE_URI])['host'];
+        $mobileHost = empty($this->params[PARAM_MOBILE_URI]) ? "" : parse_url($this->params[PARAM_MOBILE_URI])['host'];
 
         $md = new Mobile_Detect();
 
