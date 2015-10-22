@@ -75,7 +75,7 @@ class plgSystemEtdOptimizer extends JPlugin {
             //  - on est sur un mobile
             //  - on est sur une tablette et on a activé leur gestion
             //  - on est déjà sur l'url mobile
-            if ($this->helper->isMobile($currentUri->get('host'))) {
+            if ($this->helper->isMobile($currentUri->getHost())) {
                 $this->params->set(PARAM_IS_MOBILE, true);
 
                 // Si on a activé la redirection.
