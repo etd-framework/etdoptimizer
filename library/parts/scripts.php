@@ -18,7 +18,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
         ob_start();
 
         if ($this->helper->getParam(PARAM_JQUERY)) {
-            echo "<script src=\"https://raw.githubusercontent.com/etd-framework/jquery/1.x-master/jquery.min.js\"></script>\n<script>window.jQuery || document.write('<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/jquery/jquery.min.js\"><\\/script>')</script>\n";
+            echo "<script src=\"https://cdn.rawgit.com/etd-framework/jquery/1.x-master/jquery.min.js\"></script>\n<script>window.jQuery || document.write('<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/jquery/jquery.min.js\"><\\/script>')</script>\n";
         }
 
         // On traite les fichiers.
