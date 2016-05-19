@@ -41,7 +41,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 				$type = "name";
 
 				// Open Graph (FB) ?
-				if (strpos($name, 'og:') === 0 || strpos($name, 'fb:') === 0) {
+				if (strpos($name, 'og:') === 0 || strpos($name, 'fb:') === 0 || strpos($name, 'product:') === 0) {
 					$type = "property";
 				}
 
