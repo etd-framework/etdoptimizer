@@ -124,6 +124,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 
 		$docCustom = $this->helper->getDocCustom();
 		if (!empty($docCustom)) {
+			echo "\n";
 			foreach ($docCustom as $custom)  {
 				echo $custom . "\n";
 			}
