@@ -1,7 +1,5 @@
 {
   "name": "jbanety/etdoptimizer",
-  "type": "package",
-  "minimum-stability": "dev",
   "description": "Plugin d'optimisation du code HTML pour plusieurs CMS",
   "homepage": "https://github.com/jbanety/etdoptimizer",
   "license": "Apache-2.0",
@@ -9,7 +7,8 @@
     {
       "name": "Jean-Baptiste Alleaume",
       "email": "jb.alleaume@etd-solutions.com",
-      "homepage": "http://alleau.me"
+      "organization": "ETD Solutions",
+      "homepage": "http://etd-solutions.com"
     }
   ],
   "require": {
