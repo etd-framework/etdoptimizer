@@ -45,7 +45,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 					$type = "property";
 				}
 
-				echo "<meta ".$type."=\"" . $name . "\" content=\"" . $content . "\">\n";
+				echo "<meta ".$type."=\"" . $name . "\" content=\"" . htmlspecialchars($content, ENT_COMPAT, $this->helper->getCharset()) . "\">\n";
 			}
 		}
 
