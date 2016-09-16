@@ -42,7 +42,7 @@ class EtdOptimizer extends Module {
 
         $this->name = 'etdoptimizer';
         $this->tab = 'others';
-        $this->version = '2.0';
+        $this->version = '2.0.5';
         $this->author = 'ETD Solutions';
         $this->need_instance = 1;
 
