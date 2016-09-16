@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 
 define('PARAM_JQUERY', 'jquery');
+define('PARAM_JQUERY_NOCONFLICT', 'jquery_noconflict');
 define('PARAM_MODERNIZR', 'modernizr');
 define('PARAM_JS_EXCLUDE', 'js_exclude');
 define('PARAM_CSS_EXCLUDE', 'css_exclude');

@@ -11,6 +11,7 @@
 if (!defined('_CAN_LOAD_FILES_')) exit;
 
 define('PARAM_JQUERY', 'ETDOPTIMIZER_JQUERY');
+define('PARAM_JQUERY_NOCONFLICT', 'ETDOPTIMIZER_JQUERY_NOCONFLICT');
 define('PARAM_MODERNIZR', 'ETDOPTIMIZER_MODERNIZR');
 define('PARAM_JS_EXCLUDE', 'ETDOPTIMIZER_JS_EXCLUDE');
 define('PARAM_CSS_EXCLUDE', 'ETDOPTIMIZER_CSS_EXCLUDE');
@@ -42,7 +43,7 @@ class EtdOptimizer extends Module {
 
         $this->name = 'etdoptimizer';
         $this->tab = 'others';
-        $this->version = '2.0.5';
+        $this->version = '2.1.0';
         $this->author = 'ETD Solutions';
         $this->need_instance = 1;
 
@@ -67,6 +68,7 @@ class EtdOptimizer extends Module {
     public function install() {
 
         Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY', 1);
+        Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY_NOCONFLICT', 0);
         Configuration::updateGlobalValue('ETDOPTIMIZER_MODERNIZR', 1);
         Configuration::updateGlobalValue('ETDOPTIMIZER_MINIFY', 1);
         Configuration::updateGlobalValue('ETDOPTIMIZER_JS_EXCLUDE', 'tools.js, jquery.easing.js');
@@ -238,6 +240,7 @@ class EtdOptimizer extends Module {
         if (Tools::isSubmit('submitSettings'))  {
 
             Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY', (int)Tools::getValue('ETDOPTIMIZER_JQUERY'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY_NOCONFLICT', (int)Tools::getValue('ETDOPTIMIZER_JQUERY_NOCONFLICT'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_MODERNIZR', (int)Tools::getValue('ETDOPTIMIZER_MODERNIZR'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_MINIFY', (int)Tools::getValue('ETDOPTIMIZER_MINIFY'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_JS_EXCLUDE', Tools::getValue('ETDOPTIMIZER_JS_EXCLUDE'));
@@ -285,6 +288,24 @@ class EtdOptimizer extends Module {
                                 'label' => $this->l('Disabled')
                             )
                         )
+                    ),
+                    array(
+	                    'type' => 'switch',
+	                    'label' => $this->l('noConflict jQuery'),
+	                    'name' => 'ETDOPTIMIZER_JQUERY_NOCONFLICT',
+	                    'desc' => 'JQuery renonce au contrôle de la variable $',
+	                    'values' => array(
+		                    array(
+			                    'id' => 'active_on',
+			                    'value' => 1,
+			                    'label' => $this->l('Enabled')
+		                    ),
+		                    array(
+			                    'id' => 'active_off',
+			                    'value' => 0,
+			                    'label' => $this->l('Disabled')
+		                    )
+	                    )
                     ),
                     array(
                         'type' => 'switch',
@@ -475,6 +496,7 @@ class EtdOptimizer extends Module {
 
         return array(
             'ETDOPTIMIZER_JQUERY',
+            'ETDOPTIMIZER_JQUERY_NOCONFLICT',
             'ETDOPTIMIZER_MODERNIZR',
             'ETDOPTIMIZER_MINIFY',
             'ETDOPTIMIZER_JS_EXCLUDE',

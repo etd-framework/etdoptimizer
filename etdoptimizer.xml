@@ -7,7 +7,7 @@
     <authorUrl>http://www.etd-solutions.com</authorUrl>
     <copyright>Copyright (C) 2012-2016 ETD Solutions, SARL Etudoo. Tous droits réservés.</copyright>
     <license>Utilisation réservée aux clients d'ETD Solutions.</license>
-    <version>2.0.5</version>
+    <version>2.1.0</version>
     <description>Optimisation du rendu des pages.</description>
     <files>
         <filename plugin="etdoptimizer">etdoptimizer.php</filename>
@@ -34,6 +34,14 @@
                        default="1"
                        description="PLG_SYSTEM_ETDOPTIMIZER_INCLUDE_JQUERY_DESC"
                        label="PLG_SYSTEM_ETDOPTIMIZER_INCLUDE_JQUERY_LABEL"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNo</option>
+                    <option value="1">JYes</option>
+                </field>
+                <field name="jquery_noconflict" type="radio"
+                       default="0"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_JQUERY_NOCONFLICT_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_JQUERY_NOCONFLICT_LABEL"
                        class="btn-group btn-group-yesno">
                     <option value="0">JNo</option>
                     <option value="1">JYes</option>
