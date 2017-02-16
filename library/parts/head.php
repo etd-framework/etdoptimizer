@@ -80,7 +80,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 				$file = substr($source, strrpos($source, '/')+1);
 
 				// On retire les fichiers exclus.
-				if (in_array($file, $css_exclude)) {
+				if (in_array($file, $css_exclude) || in_array($path, $css_exclude)) {
 					continue;
 				}
 
