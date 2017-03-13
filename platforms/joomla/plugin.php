@@ -117,7 +117,7 @@ class plgSystemEtdOptimizer extends JPlugin {
         }
 
         // On récupère le corps de la réponse.
-        $body = JResponse::getBody();
+        $body = $app->getBody();
 
         // On vérifie que l'on a quelque chose à faire.
         if (strpos($body, '<etdoptimizer:') === false) {
@@ -161,7 +161,7 @@ class plgSystemEtdOptimizer extends JPlugin {
         }
 
         // On définit la réponse.
-        JResponse::setBody($body);
+        $app->setBody($body);
 
     }
 
