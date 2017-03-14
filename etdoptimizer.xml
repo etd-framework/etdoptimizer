@@ -5,9 +5,9 @@
     <author>ETD Solutions</author>
     <authorEmail>support@etd-solutions.com</authorEmail>
     <authorUrl>http://www.etd-solutions.com</authorUrl>
-    <copyright>Copyright (C) 2012-2016 ETD Solutions, SARL Etudoo. Tous droits réservés.</copyright>
-    <license>Utilisation réservée aux clients d'ETD Solutions.</license>
-    <version>2.1.0</version>
+    <copyright>Copyright (C) 2012-2017 ETD Solutions.</copyright>
+    <license>Apache Version 2</license>
+    <version>2.5.0</version>
     <description>Optimisation du rendu des pages.</description>
     <files>
         <filename plugin="etdoptimizer">etdoptimizer.php</filename>
@@ -22,6 +22,14 @@
         <fields name="params">
 
             <fieldset name="basic" label="PLG_SYSTEM_ETDOPTIMIZER_BASIC_LABEL">
+                <field name="requirejs" type="radio"
+                       default="0"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_REQUIREJS_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_REQUIREJS_LABEL"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNo</option>
+                    <option value="1">JYes</option>
+                </field>
                 <field name="modernizr" type="radio"
                        default="1"
                        description="PLG_SYSTEM_ETDOPTIMIZER_INCLUDE_MODERNIZR_DESC"
@@ -123,6 +131,15 @@
                        default="width=device-width, initial-scale=1.0"
                        size="50"
                         />
+
+                <field name="domready" type="radio"
+                       default="0"
+                       description="PLG_SYSTEM_ETDOPTIMIZER_DOMREADY_DESC"
+                       label="PLG_SYSTEM_ETDOPTIMIZER_DOMREADY_LABEL"
+                       class="btn-group btn-group-yesno">
+                    <option value="0">JNo</option>
+                    <option value="1">JYes</option>
+                </field>
             </fieldset>
         </fields>
     </config>

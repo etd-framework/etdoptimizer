@@ -3,11 +3,12 @@
 /**
  * @package      ETD Optimizer
  *
- * @version      2.0
- * @copyright    Copyright (C) 2015-2016 ETD Solutions, SARL Etudoo. Tous droits réservés.
+ * @version      2.5.0
+ * @copyright    Copyright (C) 2012-2017 ETD Solutions. Tous droits réservés.
  * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
+
 class EtdOptimizerScripts extends EtdOptimizerPart {
 
     public function render() {
@@ -17,13 +18,24 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
 
         ob_start();
 
+        // jQuery
         if ($this->helper->getParam(PARAM_JQUERY)) {
-            echo "<script src=\"https://cdn.rawgit.com/etd-framework/jquery/1.x-master/jquery.min.js\"></script>\n";
-	        echo "<script>window.jQuery || document.write('<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/jquery/jquery.min.js\"><\\/script>')";
-	        if ($this->helper->getParam(PARAM_JQUERY_NOCONFLICT)) {
-		        echo ";jQuery.noConflict()";
-	        }
-	        echo "</script>\n";
+            if ($this->helper->getParam(PARAM_REQUIREJS)) {
+                EtdOptimizerRequireJS::addModule("jquery", $this->helper->getVendorURI() . "etdsolutions/jquery/jquery.min.js");
+            } else {
+                echo "<script src=\"https://cdn.rawgit.com/etd-framework/jquery/1.x-master/jquery.min.js\"></script>\n";
+                echo "<script>window.jQuery || document.write('<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/jquery/jquery.min.js\"><\\/script>')";
+                if ($this->helper->getParam(PARAM_JQUERY_NOCONFLICT)) {
+                    echo ";jQuery.noConflict()";
+                }
+                echo "</script>\n";
+            }
+        }
+
+        // requireJS
+        if ($this->helper->getParam(PARAM_REQUIREJS)) {
+            echo "<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/requirejs/require.min.js\"></script>\n";
+            echo "<script>\n" . EtdOptimizerRequireJS::render($this->helper) . "</script>\n";
         }
 
         // On traite les fichiers.

@@ -3,8 +3,8 @@
 /**
  * @package      ETD Optimizer
  *
- * @version      2.0
- * @copyright    Copyright (C) 2015-2016 ETD Solutions, SARL Etudoo. Tous droits réservés.
+ * @version      2.5.0
+ * @copyright    Copyright (C) 2012-2017 ETD Solutions. Tous droits réservés.
  * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
@@ -100,7 +100,9 @@ class EtdOptimizerHelper {
      */
     protected $docScript;
 
-    function __construct($params, $basePath, $vendorURI, $rootURI, $templatePath, $templateUri, $rootPath) {
+    protected $debug;
+
+    function __construct($params, $basePath, $vendorURI, $rootURI, $templatePath, $templateUri, $rootPath, $debug = false) {
 
         $this->params       = $params;
         $this->basePath     = rtrim($basePath, "/") . "/";
@@ -109,6 +111,7 @@ class EtdOptimizerHelper {
         $this->templatePath = rtrim($templatePath, "/") . "/";
         $this->templateUri  = rtrim($templateUri, "/") . "/";
         $this->rootPath     = rtrim($rootPath, "/") . "/";
+        $this->debug        = $debug;
     }
 
     /**
@@ -437,6 +440,10 @@ class EtdOptimizerHelper {
     public function setVendorURI($vendorURI) {
 
         $this->vendorURI = $vendorURI;
+    }
+
+    public function getDebug() {
+        return $this->debug;
     }
 
     /**

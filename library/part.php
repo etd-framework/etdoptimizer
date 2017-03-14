@@ -1,13 +1,13 @@
 <?php
+
 /**
- * @package		Etudoo - ETD Solutions
- * @subpackage	Plugin ETDOptimizer
- * 
- * @version		1.1.1
- * @copyright	Copyright (C) 2012 ETD Solutions, SARL Etudoo. Tous droits réservés.
- * @license		http://www.etd-solutions.com/licence
- * @author		ETD Solutions http://www.etd-solutions.com
-**/
+ * @package      ETD Optimizer
+ *
+ * @version      2.5.0
+ * @copyright    Copyright (C) 2012-2017 ETD Solutions. Tous droits réservés.
+ * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
+ * @author       ETD Solutions http://www.etd-solutions.com
+ **/
 
 abstract class EtdOptimizerPart {
 
