@@ -4,8 +4,8 @@ etdoptimizer
 Plugin d'optimisation du code HTML pour plusieurs CMS.
 
 Author: Jean-Baptiste Alleaume (http://alleau.me)  
-Copyright © 2015-2016, Jean-Baptiste Alleaume  
-Version: 2.1.0
+Copyright © 2012-2017, Jean-Baptiste Alleaume  
+Version: 2.5.0
 
 ## CMS supportés
 
