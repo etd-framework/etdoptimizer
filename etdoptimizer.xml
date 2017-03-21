@@ -7,12 +7,11 @@
     <authorUrl>http://www.etd-solutions.com</authorUrl>
     <copyright>Copyright (C) 2012-2017 ETD Solutions.</copyright>
     <license>Apache Version 2</license>
-    <version>2.6.0</version>
+    <version>2.6.1</version>
     <description>Optimisation du rendu des pages.</description>
     <files>
         <filename plugin="etdoptimizer">etdoptimizer.php</filename>
         <filename>etdoptimizer.xml</filename>
-        <filename>index.html</filename>
         <filename>composer.json</filename>
         <folder>language</folder>
         <folder>library</folder>
