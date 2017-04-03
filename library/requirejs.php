@@ -161,7 +161,7 @@ class EtdOptimizerRequireJS {
 
         // Debug => cache bust
         if ($helper->getDebug()) {
-            $js .= "\turlArgs: 'bust=' +  (new Date()).getTime(),\n";
+            $js .= ",\turlArgs: 'bust=' +  (new Date()).getTime(),\n";
             $js .= "\twaitSeconds: 0";
         }
 
