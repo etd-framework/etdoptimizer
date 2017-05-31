@@ -79,7 +79,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 			foreach($docStylesheets as $source => $attribs) {
 
                 // Toutes sauf celles qui vont en bas de page.
-                if (!is_array($attribs['attribs']) || is_array($attribs['attribs']) && !isset($attribs['attribs']['bottom']) || is_array($attribs['attribs']) && isset($attribs['attribs']['bottom']) && !$attribs['attribs']['bottom']) {
+                if (!isset($attribs['attribs']) || is_array($attribs['attribs']) && !isset($attribs['attribs']['bottom']) || is_array($attribs['attribs']) && isset($attribs['attribs']['bottom']) && !$attribs['attribs']['bottom']) {
 
                     // On récupère le chemin et nom de fichier depuis l'URL.
                     $path = str_replace($this->helper->getRootURI(), '/', $source);
@@ -106,7 +106,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
                     }
 
                     // Preload
-                    if (is_array($attribs['attribs']) && isset($attribs['attribs']['preload']) && $attribs['attribs']['preload']) {
+                    if (isset($attribs['attribs']) && isset($attribs['attribs']['preload']) && $attribs['attribs']['preload']) {
                         echo "<link rel=\"preload\" href=\"" . $source . "\" as=\"style\" onload=\"this.rel='stylesheet'\">\n";
                         echo "<noscript><link rel=\"stylesheet\" href=\"" . $source . "\"></noscript>\n";
                         $this->addLoadCSS = true;

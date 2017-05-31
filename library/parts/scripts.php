@@ -88,6 +88,8 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
 
 	            // On ajoute le script.
 	            echo "<script src=\"" . $source . "\"" . $str_attribs . "></script>\n";
+                if (isset($attribs["async"]) && $attribs["async"]) {
+                if (isset($attribs["defer"]) && $attribs["defer"]) {
             }
         }
 

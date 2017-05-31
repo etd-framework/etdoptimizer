@@ -28,7 +28,7 @@ class EtdOptimizerStylesheets extends EtdOptimizerPart {
             foreach($docStylesheets as $source => $attribs) {
 
                 // En bas de page seulement.
-                if (is_array($attribs['attribs']) && isset($attribs['attribs']['bottom']) && $attribs['attribs']['bottom']) {
+                if (isset($attribs['attribs']) && isset($attribs['attribs']['bottom']) && $attribs['attribs']['bottom']) {
 
                     // On récupère le chemin et nom de fichier depuis l'URL.
                     $path = str_replace($this->helper->getRootURI(), '/', $source);
