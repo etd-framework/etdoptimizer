@@ -77,19 +77,18 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
                     $source = str_replace('.js', '.min.js', $source);
                 }
 
-	            // On compile les attributs
-	            $str_attribs = "";
-	            if ($attribs["async"]) {
-		            $str_attribs .= " async";
-	            }
-	            if ($attribs["defer"]) {
-		            $str_attribs .= " defer";
-	            }
-
-	            // On ajoute le script.
-	            echo "<script src=\"" . $source . "\"" . $str_attribs . "></script>\n";
+		// On compile les attributs
+                $str_attribs = "";
                 if (isset($attribs["async"]) && $attribs["async"]) {
+                    $str_attribs .= " async";
+                }
                 if (isset($attribs["defer"]) && $attribs["defer"]) {
+                    $str_attribs .= " defer";
+                }
+
+                // On ajoute le script.
+                echo "<script src=\"" . $source . "\"" . $str_attribs . "></script>\n";
+
             }
         }
 
