@@ -2,7 +2,7 @@
 /**
  * @package      ETD Optimizer
  *
- * @version      2.6.0
+ * @version      2.6.5
  * @copyright    Copyright (C) 2012-2017 ETD Solutions. Tous droits réservés.
  * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
  * @author       ETD Solutions http://www.etd-solutions.com
@@ -10,6 +10,7 @@
 
 if (!defined('_CAN_LOAD_FILES_')) exit;
 
+define('PARAM_REQUIREJS', 'ETDOPTIMIZER_JQUERY');
 define('PARAM_JQUERY', 'ETDOPTIMIZER_JQUERY');
 define('PARAM_JQUERY_NOCONFLICT', 'ETDOPTIMIZER_JQUERY_NOCONFLICT');
 define('PARAM_MODERNIZR', 'ETDOPTIMIZER_MODERNIZR');
@@ -25,13 +26,12 @@ define('PARAM_MOBILE_REDIRECT', 'ETDOPTIMIZER_MOBILE_REDIRECT');
 define('PARAM_MOBILE_TEMPLATE', 'ETDOPTIMIZER_MOBILE_TEMPLATE');
 define('PARAM_MINIFY', 'ETDOPTIMIZER_MINIFY');
 define('PARAM_GOOGLE_FONTS', 'ETDOPTIMIZER_GOOGLE_FONTS');
+define('PARAM_DOMREADY', 'ETDOPTIMIZER_DOMREADY');
 
 /**
  * Module pour optimiser le rendu HTML des pages.
  */
 class EtdOptimizer extends Module {
-
-    private $helper;
 
     public static $stylesheets = array();
     public static $css = array();
@@ -39,11 +39,16 @@ class EtdOptimizer extends Module {
     public static $scripts = array();
     public static $custom = array();
 
+    /**
+     * @var EtdOptimizerHelper $helper
+     */
+    public static $helper;
+
     public function __construct() {
 
         $this->name = 'etdoptimizer';
         $this->tab = 'others';
-        $this->version = '2.1.0';
+        $this->version = '2.6.5';
         $this->author = 'ETD Solutions';
         $this->need_instance = 1;
 
@@ -54,19 +59,22 @@ class EtdOptimizer extends Module {
         $this->description = $this->l('Optimize html code rendering.');
         $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
 
-        $this->helper = new EtdOptimizerHelper(
-            $this->loadParams(),
-            $this->local_path,
-            $this->_path."vendor",
-            _PS_BASE_URL_,
-            _PS_THEME_DIR_,
-            _THEME_DIR_,
-            _PS_ROOT_DIR_
-        );
+        if (!isset(self::$helper)) {
+            self::$helper = new EtdOptimizerHelper(
+                $this->loadParams(),
+                $this->local_path,
+                $this->_path."vendor",
+                _PS_BASE_URL_,
+                _PS_THEME_DIR_,
+                _THEME_DIR_,
+                _PS_ROOT_DIR_
+            );
+        }
     }
 
     public function install() {
 
+        Configuration::updateGlobalValue('ETDOPTIMIZER_REQUIREJS', 0);
         Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY', 1);
         Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY_NOCONFLICT', 0);
         Configuration::updateGlobalValue('ETDOPTIMIZER_MODERNIZR', 1);
@@ -80,8 +88,19 @@ class EtdOptimizer extends Module {
         Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_TEMPLATE', '');
         Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', 'width=device-width, initial-scale=1.0');
         Configuration::updateGlobalValue('ETDOPTIMIZER_GOOGLE_FONTS', '');
+        Configuration::updateGlobalValue('ETDOPTIMIZER_DOMREADY', 0);
 
-        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS') && $this->registerHook('actionEtdOptimizerAddCSS') && $this->registerHook('actionEtdOptimizerAddScript') && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('actionEtdOptimizerAddCustom') && $this->registerHook('displayEtdOptimizerHead') && $this->registerHook('displayEtdOptimizerScripts'));
+        // Copie de l'override de la classe Controller
+        if (file_exists(_PS_ROOT_DIR_ . "/override/classes/controller/Controller.php")) {
+            $this->displayError($this->l("Un override existe déjà pour Controller.php"));
+        } else {
+            copy($this->local_path . "platforms/prestashop/overrides/Controller.php", _PS_ROOT_DIR_ . "/override/classes/controller/Controller.php");
+            if (file_exists(_PS_ROOT_DIR_.'/cache/class_index.php')) {
+                unlink(_PS_ROOT_DIR_.'/cache/class_index.php');
+            }
+        }
+
+        return (parent::install() && $this->registerHook('actionDispatcher') && $this->registerHook('actionEtdOptimizerAddJS') && $this->registerHook('actionEtdOptimizerAddCSS') && $this->registerHook('actionEtdOptimizerAddScript') && $this->registerHook('actionEtdOptimizerAddStylesheet') && $this->registerHook('actionEtdOptimizerAddCustom'));
 
     }
 
@@ -139,7 +158,7 @@ class EtdOptimizer extends Module {
 
     }
 
-    public function hookDisplayEtdOptimizerHead() {
+    /*public function hookDisplayEtdOptimizerHead() {
 
         $this->helper->updateDoc(
             'utf-8',
@@ -223,7 +242,7 @@ class EtdOptimizer extends Module {
 
         return $scripts->render();
 
-    }
+    }*/
 
     protected function loadParams() {
 
@@ -239,6 +258,7 @@ class EtdOptimizer extends Module {
 
         if (Tools::isSubmit('submitSettings'))  {
 
+            Configuration::updateGlobalValue('ETDOPTIMIZER_REQUIREJS', (int)Tools::getValue('ETDOPTIMIZER_REQUIREJS'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY', (int)Tools::getValue('ETDOPTIMIZER_JQUERY'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_JQUERY_NOCONFLICT', (int)Tools::getValue('ETDOPTIMIZER_JQUERY_NOCONFLICT'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_MODERNIZR', (int)Tools::getValue('ETDOPTIMIZER_MODERNIZR'));
@@ -252,6 +272,7 @@ class EtdOptimizer extends Module {
             Configuration::updateGlobalValue('ETDOPTIMIZER_MOBILE_TEMPLATE', Tools::getValue('ETDOPTIMIZER_MOBILE_TEMPLATE'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_VIEWPORT', Tools::getValue('ETDOPTIMIZER_VIEWPORT'));
             Configuration::updateGlobalValue('ETDOPTIMIZER_GOOGLE_FONTS', Tools::getValue('ETDOPTIMIZER_GOOGLE_FONTS'));
+            Configuration::updateGlobalValue('ETDOPTIMIZER_DOMREADY', (int)Tools::getValue('ETDOPTIMIZER_DOMREADY'));
 
             $html .= $this->displayConfirmation($this->l('Configuration updated'));
 
@@ -271,6 +292,24 @@ class EtdOptimizer extends Module {
                     'icon' => 'icon-file-text'
                 ),
                 'input' => array(
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Inclure RequireJS'),
+                        'name' => 'ETDOPTIMIZER_REQUIREJS',
+                        'desc' => 'Inclure RequireJS pour les scripts asynchrones AMD',
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Disabled')
+                            )
+                        )
+                    ),
                     array(
                         'type' => 'switch',
                         'label' => $this->l('Inclure jQuery'),
@@ -452,6 +491,24 @@ class EtdOptimizer extends Module {
                         'label' => $this->l('Google Fonts'),
                         'name' => 'ETDOPTIMIZER_GOOGLE_FONTS',
                         'desc' => $this->l('Police Google Fonts à importer. (format: Bree+Serif|Great+Vibes')
+                    ),
+                    array(
+                        'type' => 'switch',
+                        'label' => $this->l('Inclure domReady'),
+                        'name' => 'ETDOPTIMIZER_DOMREADY',
+                        'desc' => 'Inclure domReady dans les chemins RequireJS',
+                        'values' => array(
+                            array(
+                                'id' => 'active_on',
+                                'value' => 1,
+                                'label' => $this->l('Enabled')
+                            ),
+                            array(
+                                'id' => 'active_off',
+                                'value' => 0,
+                                'label' => $this->l('Disabled')
+                            )
+                        )
                     )
                 ),
                 'submit' => array(
@@ -495,6 +552,7 @@ class EtdOptimizer extends Module {
     protected function getConfigFields() {
 
         return array(
+            'ETDOPTIMIZER_REQUIREJS',
             'ETDOPTIMIZER_JQUERY',
             'ETDOPTIMIZER_JQUERY_NOCONFLICT',
             'ETDOPTIMIZER_MODERNIZR',
@@ -508,6 +566,7 @@ class EtdOptimizer extends Module {
             'ETDOPTIMIZER_MOBILE_TEMPLATE',
             'ETDOPTIMIZER_VIEWPORT',
             'ETDOPTIMIZER_GOOGLE_FONTS',
+            'ETDOPTIMIZER_DOMREADY'
         );
 
     }
