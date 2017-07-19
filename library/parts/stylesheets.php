@@ -3,7 +3,7 @@
 /**
  * @package      ETD Optimizer
  *
- * @version      2.6.5
+ * @version      2.7.0
  * @copyright    Copyright (C) 2012-2017 ETD Solutions. Tous droits réservés.
  * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
  * @author       ETD Solutions http://www.etd-solutions.com
@@ -42,16 +42,16 @@ class EtdOptimizerStylesheets extends EtdOptimizerPart {
                     // On remplace les scripts des modules par ceux du template s'ils existent.
                     if (strpos($source, 'modules/') !== false || strpos($source, 'media/jui/css/') !== false || strpos($source, 'media/system/css/') !== false) {
 
-                        $min_css_path = $template_path . 'custom' . str_replace('.css', '.min.css', $path);
-                        $css_path = $template_path . 'custom' . $path;
-
                         // On regarde si une version minimisée existe.
-                        if (file_exists($min_css_path)) {
-                            $source = $template_uri . 'custom' . str_replace('.css', '.min.css', $path);
-                        } elseif (file_exists($css_path)) { // On regarde pour la version normale.
+                        if (file_exists($template_path . 'custom' . $path)) {
                             $source = $template_uri . 'custom' . $path;
                         }
 
+                    }
+
+                    // On regarde si une version minimisée existe.
+                    if (file_exists($this->helper->getRootPath().str_replace('.css', '.min.css', substr($path, 1)))) {
+                        $source = str_replace('.css', '.min.css', $source);
                     }
 
                     echo "<link rel=\"stylesheet\" href=\"" . $source . "\">\n";

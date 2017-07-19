@@ -5,7 +5,7 @@ Plugin d'optimisation du code HTML pour plusieurs CMS.
 
 Author: Jean-Baptiste Alleaume (http://alleau.me)  
 Copyright © 2012-2017, Jean-Baptiste Alleaume  
-Version: 2.6.5
+Version: 2.7.0
 
 ## CMS supportés
 

@@ -2,7 +2,7 @@
 /**
  * @package      ETD Optimizer
  *
- * @version      2.6.5
+ * @version      2.7.0
  * @copyright    Copyright (C) 2012-2017 ETD Solutions. Tous droits réservés.
  * @license      Apache Version 2 (https://raw.githubusercontent.com/jbanety/etdoptimizer/master/LICENSE.md)
  * @author       ETD Solutions http://www.etd-solutions.com
@@ -48,7 +48,7 @@ class EtdOptimizer extends Module {
 
         $this->name = 'etdoptimizer';
         $this->tab = 'others';
-        $this->version = '2.6.5';
+        $this->version = '2.7.0';
         $this->author = 'ETD Solutions';
         $this->need_instance = 1;
 
@@ -122,127 +122,74 @@ class EtdOptimizer extends Module {
 
     public function hookActionEtdOptimizerAddCustom($params) {
 
-        $custom = trim($params['custom']);
-
-        if (!in_array($custom, self::$custom)) {
-            self::$custom[] = $custom;
-        }
+        self::addCustom($params['custom']);
 
     }
 
     public function hookActionEtdOptimizerAddJS($params) {
 
-        if (!in_array($params['js'], self::$js)) {
-            self::$js[] = $params['js'];
-        }
+        self::addScriptDeclaration($params['js']);
 
     }
 
     public function hookActionEtdOptimizerAddScript($params) {
 
-        self::$scripts[$params['src']] = '';
+        self::addScript($params['src']);
 
     }
 
     public function hookActionEtdOptimizerAddCSS($params) {
 
-        if (!in_array($params['css'], self::$css)) {
-            self::$css[] = $params['css'];
-        }
+        self::addStyleDeclaration($params['css']);
 
     }
 
     public function hookActionEtdOptimizerAddStylesheet($params) {
 
-        self::$stylesheets[$params['src']] = 'all';
+        self::addStylesheet($params['src']);
 
     }
 
-    /*public function hookDisplayEtdOptimizerHead() {
+    public static function addStylesheet($src, $media = 'all') {
 
-        $this->helper->updateDoc(
-            'utf-8',
-            $this->context->smarty->tpl_vars['meta_title']->value,
-            $this->context->smarty->tpl_vars['meta_description']->value,
-            $this->context->smarty->tpl_vars['meta_keywords']->value,
-            null,
-            function() {
-
-                $context = Context::getContext();
-                $css_files = array();
-                if (array_key_exists('css_files', $context->smarty->tpl_vars)) {
-                    $css_files = $context->smarty->tpl_vars['css_files']->value;
-                }
-                return array_merge($css_files, EtdOptimizer::$stylesheets);
-
-            },
-            function() {
-
-                return EtdOptimizer::$css;
-
-            },
-            function() {
-
-                $context = Context::getContext();
-                $js_files = array();
-                if (array_key_exists('js_files', $context->smarty->tpl_vars)) {
-                    $js_files = $context->smarty->tpl_vars['js_files']->value;
-                }
-                return array_merge(array_flip($js_files), EtdOptimizer::$scripts);
-
-            },
-            function() {
-
-                $context = Context::getContext();
-                $js_inline = array();
-                if (array_key_exists('js_inline', $context->smarty->tpl_vars)) {
-                    $js_inline = $context->smarty->tpl_vars['js_inline']->value;
-                }
-                $js_inline = array_merge($js_inline, EtdOptimizer::$js);
-
-                // JS Def
-                $js_def = Media::getJsDef();
-                $c = count($js_def);
-                if ($c) {
-                    $buffer = "var ";
-                    $i = 0;
-                    foreach ($js_def as $key => $value) {
-                        $i++;
-                        if (!empty($key)) {
-                            $buffer .= $key ." = ";
-                        }
-                        $buffer .= json_encode($value);
-                        if ($i < $c) {
-                            $buffer .= ",\n";
-                        }
-                    }
-                    $buffer .= ";\n";
-                    array_unshift($js_inline, $buffer);
-                }
-
-                return $js_inline;
-            },
-            function () {
-
-                return EtdOptimizer::$custom;
-
-            },
-            array()
-        );
-
-        $head = $this->helper->getPart('head');
-
-        return $head->render();
+        self::$stylesheets[$src] = $media;
 
     }
 
-    public function hookDisplayEtdOptimizerScripts() {
+    public static function addStyleDeclaration($content, $type = 'text/css') {
 
-        $scripts = $this->helper->getPart('scripts');
+        if (!isset(self::$css[strtolower($type)])) {
+            self::$css[strtolower($type)] = $content;
+        } else {
+            self::$css[strtolower($type)] .= chr(13) . $content;
+        }
 
-        return $scripts->render();
+    }
 
-    }*/
+    public static function addScript($src, $async = false, $defer = false) {
+
+        self::$scripts[$src] = [
+            'async' => $async,
+            'defer' => $defer
+        ];
+
+    }
+
+    public static function addScriptDeclaration($content, $type = 'text/javascript') {
+
+        if (!isset(self::$js[strtolower($type)])) {
+            self::$js[strtolower($type)] = $content;
+        } else {
+            self::$js[strtolower($type)] .= chr(13) . $content;
+        }
+
+    }
+
+    public static function addCustom($html) {
+
+        self::$custom[] = trim($html);
+
+    }
 
     protected function loadParams() {
 

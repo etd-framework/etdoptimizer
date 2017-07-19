@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package      ETD Optimizer
  *
@@ -9,17 +8,12 @@
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
 
-abstract class EtdOptimizerPart {
+function smarty_function_addCustom($params, Smarty_Internal_Template $template) {
 
-	/**
-	 * @var EtdOptimizerHelper
-	 */
-	protected $helper;
+    $html = isset($params['html']) ? trim($params['html']) : '';
 
-	public function __construct($helper) {
-		$this->helper = $helper;
-	}
-	
-	abstract public function render();
-	
+    if (!empty($html)) {
+        EtdOptimizer::addCustom($html);
+    }
+
 }

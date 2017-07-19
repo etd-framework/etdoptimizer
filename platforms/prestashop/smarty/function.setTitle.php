@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package      ETD Optimizer
  *
@@ -9,17 +8,8 @@
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
 
-abstract class EtdOptimizerPart {
+function smarty_function_setTitle($params, Smarty_Internal_Template $template) {
 
-	/**
-	 * @var EtdOptimizerHelper
-	 */
-	protected $helper;
+	$template->tpl_vars['meta_title']->value = $params['title'];
 
-	public function __construct($helper) {
-		$this->helper = $helper;
-	}
-	
-	abstract public function render();
-	
 }
