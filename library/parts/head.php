@@ -84,6 +84,9 @@ class EtdOptimizerHead extends EtdOptimizerPart {
                     // On récupère le chemin et nom de fichier depuis l'URL.
                     $path = str_replace($this->helper->getRootURI(), '/', $source);
                     $file = substr($source, strrpos($source, '/') + 1);
+                    if (strpos($file, "?") !== false) {
+                        $file = substr($file, 0, strrpos($file, '?'));
+                    }
 
                     // On retire les fichiers exclus.
                     if (in_array($file, $css_exclude) || in_array($path, $css_exclude)) {
