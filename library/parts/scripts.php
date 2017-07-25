@@ -50,7 +50,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
             }
 
             if ($this->helper->getParam(PARAM_JQUERY)) {
-                $js_exclude = array_merge($js_exclude, array('jquery-1.11.0.min.js', 'jquery-migrate-1.2.1.min.js', 'jquery.min.js', 'jquery-noconflict.js', 'jquery-migrate.min.js'));
+                $js_exclude = array_merge($js_exclude, array('jquery.js', 'jquery.min.js', 'jquery-1.11.0.min.js', 'jquery.noconflict.js', 'jquery.noconflict.min.js', 'jquery-noconflict.js', 'jquery-noconflict.min.js', 'jquery-migrate.js', 'jquery-migrate.min.js', 'jquery-migrate-1.2.1.min.js'));
             }
 
             foreach ($docScripts as $source => $attribs) {
