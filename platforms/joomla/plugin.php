@@ -131,8 +131,8 @@ class plgSystemEtdOptimizer extends JPlugin {
         $doc = JFactory::getDocument();
 
         $metaTags = array();
-        if (isset($doc->_metaTags['standard']) && !empty($doc->_metaTags['standard'])) {
-            $metaTags = $doc->_metaTags['standard'];
+        if (isset($doc->_metaTags['name']) && !empty($doc->_metaTags['name'])) {
+            $metaTags = $doc->_metaTags['name'];
 
             // On retire les infos inutiles.
             unset($metaTags['keywords'],
