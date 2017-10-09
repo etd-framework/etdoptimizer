@@ -34,6 +34,12 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
 
         // requireJS
         if ($this->helper->getParam(PARAM_REQUIREJS)) {
+
+            // On ajoute domReady si nécessaire.
+            if ($this->helper->getParam(PARAM_DOMREADY)) {
+                EtdOptimizerRequireJS::addModule('domReady', $this->helper->getVendorURI() . 'etdsolutions/domready/domReady.min');
+            }
+
             echo "<script src=\"" . $this->helper->getVendorURI() . "etdsolutions/requirejs/require.min.js\"></script>\n";
             echo "<script>\n" . EtdOptimizerRequireJS::render($this->helper) . "</script>\n";
         }

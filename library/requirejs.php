@@ -150,11 +150,6 @@ class EtdOptimizerRequireJS {
 
         $js = "";
 
-        // On ajoute le domReady si nécessaire.
-        if ($helper->getParam(PARAM_DOMREADY)) {
-            self::addModule('domReady', $helper->getVendorURI() . 'js/vendor/domReady.min');
-        }
-
         // On crée la configuration de requireJS
         $js .= "requirejs.config({\n";
         $js .= "\tbaseUrl: '" . $helper->getRootURI() . "'";
