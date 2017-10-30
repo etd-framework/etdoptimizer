@@ -48,6 +48,16 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
         $docScripts = $this->helper->getDocScripts();
         if (!empty($docScripts)) {
 
+            // On traite les priorités
+            uasort($docScripts, function($a, $b) {
+                $a_priority = isset($a['options']['priority']) ? (int) $a['options']['priority'] : 0;
+                $b_priority = isset($b['options']['priority']) ? (int) $b['options']['priority'] : 0;
+                if ($a_priority == $b_priority) {
+                    return 0;
+                }
+                return ($a_priority > $b_priority) ? -1 : 1;
+            });
+
             $js_exclude = explode(',', $this->helper->getParam(PARAM_JS_EXCLUDE));
             $js_exclude = array_map('trim', $js_exclude);
 
