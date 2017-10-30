@@ -72,7 +72,7 @@
                 <field name="js_exclude" type="text"
                        description="PLG_SYSTEM_ETDOPTIMIZER_JS_EXCLUDE_DESC"
                        label="PLG_SYSTEM_ETDOPTIMIZER_JS_EXCLUDE_LABEL"
-                       default=""
+                       default="jquery.js,jquery.min.js,bootstrap.js,bootstrap.min.js,jquery-noconflict.js,jquery-noconflict.min.js,jquery-migrate.js,jquery-migrate.min.js"
                        size="50"/>
                 <field name="css_exclude" type="text"
                        description="PLG_SYSTEM_ETDOPTIMIZER_CSS_EXCLUDE_DESC"
