@@ -10,12 +10,13 @@
 
 function smarty_function_addScript($params, Smarty_Internal_Template $template) {
 
-    $src   = isset($params['src']) ? trim($params['src']) : '';
-    $async = isset($params['async']) ? (bool) $params['async'] : false;
-    $defer = isset($params['defer']) ? (bool) $params['defer'] : false;
+    $src      = isset($params['src']) ? trim($params['src']) : '';
+    $async    = isset($params['async']) ? (bool) $params['async'] : false;
+    $defer    = isset($params['defer']) ? (bool) $params['defer'] : false;
+    $priority = isset($params['priority']) ? $params['priority'] : null;
 
     if (!empty($src)) {
-        EtdOptimizer::addScript($src, $async, $defer);
+        EtdOptimizer::addScript($src, $async, $defer, $priority);
     }
 
 }

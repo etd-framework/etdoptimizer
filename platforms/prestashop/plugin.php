@@ -150,11 +150,14 @@ class EtdOptimizer extends Module {
 
     }
 
-    public static function addStylesheet($src, $media = 'all') {
+	public static function addStylesheet($src, $media = 'all', $priority = null) {
 
-        self::$stylesheets[$src] = $media;
+		self::$stylesheets[$src] = [
+			'media'   => $media,
+			'options' => isset($priority) ? ['priority' => $priority] : []
+		];
 
-    }
+	}
 
     public static function addStyleDeclaration($content, $type = 'text/css') {
 
@@ -166,14 +169,15 @@ class EtdOptimizer extends Module {
 
     }
 
-    public static function addScript($src, $async = false, $defer = false) {
+	public static function addScript($src, $async = false, $defer = false, $priority = null) {
 
-        self::$scripts[$src] = [
-            'async' => $async,
-            'defer' => $defer
-        ];
+		self::$scripts[$src] = [
+			'async' => $async,
+			'defer' => $defer,
+			'options' => isset($priority) ? ['priority' => $priority] : []
+		];
 
-    }
+	}
 
     public static function addScriptDeclaration($content, $type = 'text/javascript') {
 

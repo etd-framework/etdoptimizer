@@ -73,6 +73,16 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		$docStylesheets = $this->helper->getDocStylesheets();
 		if (!empty($docStylesheets)) {
 
+			// On traite les priorités
+			uasort($docStylesheets, function($a, $b) {
+				$a_priority = isset($a['options']['priority']) ? (int) $a['options']['priority'] : 0;
+				$b_priority = isset($b['options']['priority']) ? (int) $b['options']['priority'] : 0;
+				if ($a_priority == $b_priority) {
+					return 0;
+				}
+				return ($a_priority > $b_priority) ? -1 : 1;
+			});
+
 			$css_exclude = explode(',', $this->helper->getParam(PARAM_CSS_EXCLUDE));
 			$css_exclude = array_map('trim', $css_exclude);
 
