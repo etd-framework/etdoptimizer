@@ -92,7 +92,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
                 }
 
                 // On regarde si une version minimisée existe.
-                if (file_exists($this->helper->getRootPath().str_replace('.js', '.min.js', substr($path, 1)))) {
+                if (!$this->helper->getDebug() && file_exists($this->helper->getRootPath().str_replace('.js', '.min.js', substr($path, 1)))) {
                     $source = str_replace('.js', '.min.js', $source);
                 }
 
@@ -119,7 +119,7 @@ class EtdOptimizerScripts extends EtdOptimizerPart {
                 $script .= $content . "\n";
             }
             if (!empty($script)) {
-                if ($this->helper->getParam(PARAM_MINIFY)) {
+                if (!$this->helper->getDebug() && $this->helper->getParam(PARAM_MINIFY)) {
                     $minifier = new MatthiasMullie\Minify\JS($script);
                     $script = $minifier->minify();
                 }

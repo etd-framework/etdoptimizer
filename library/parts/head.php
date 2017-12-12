@@ -106,15 +106,15 @@ class EtdOptimizerHead extends EtdOptimizerPart {
                     // On remplace les scripts des modules par ceux du template s'ils existent.
                     if (strpos($source, 'modules/') !== false || strpos($source, 'media/jui/css/') !== false || strpos($source, 'media/system/css/') !== false) {
 
-                        // On regarde si une version minimisée existe.
+                        // On regarde si une version surchargée existe.
                         if (file_exists($template_path . 'custom' . $path)) {
                             $source = $template_uri . 'custom' . $path;
                         }
 
                     }
 
-                    // On regarde si une version minimisée existe.
-                    if (file_exists($this->helper->getRootPath().str_replace('.css', '.min.css', substr($path, 1)))) {
+                    // Si on est pas en mode debug, on regarde si une version minimisée existe.
+                    if (!$this->helper->getDebug() && file_exists($this->helper->getRootPath().str_replace('.css', '.min.css', substr($path, 1)))) {
                         $source = str_replace('.css', '.min.css', $source);
                     }
 
@@ -137,7 +137,7 @@ class EtdOptimizerHead extends EtdOptimizerPart {
 		if (!empty($docStyles)) {
 			foreach ($docStyles as $type => $content) {
 				if (!empty($content)) {
-					if ($this->helper->getParam(PARAM_MINIFY)) {
+					if (!$this->helper->getDebug() && $this->helper->getParam(PARAM_MINIFY)) {
 						$minifier = new MatthiasMullie\Minify\CSS($content);
 						$content = $minifier->minify();
 					}

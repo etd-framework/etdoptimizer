@@ -63,7 +63,7 @@ class EtdOptimizerStylesheets extends EtdOptimizerPart {
                     }
 
                     // On regarde si une version minimisée existe.
-                    if (file_exists($this->helper->getRootPath().str_replace('.css', '.min.css', substr($path, 1)))) {
+                    if (!$this->helper->getDebug() && file_exists($this->helper->getRootPath().str_replace('.css', '.min.css', substr($path, 1)))) {
                         $source = str_replace('.css', '.min.css', $source);
                     }
 

@@ -67,7 +67,8 @@ class EtdOptimizer extends Module {
                 _PS_BASE_URL_,
                 _PS_THEME_DIR_,
                 _THEME_DIR_,
-                _PS_ROOT_DIR_
+                _PS_ROOT_DIR_,
+	            _PS_MODE_DEV_
             );
         }
     }
