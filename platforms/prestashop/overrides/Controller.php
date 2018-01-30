@@ -116,7 +116,7 @@ abstract class Controller extends ControllerCore {
             $js_files,
             $js_inline,
             EtdOptimizer::$custom,
-            array()
+            EtdOptimizer::$meta
         );
 
         // On récupère toutes les parties gérées par le plugin.

@@ -10,12 +10,12 @@
 
 function smarty_function_addStyleSheet($params, Smarty_Internal_Template $template) {
 
-	$src      = isset($params['src']) ? trim($params['src']) : '';
-	$media    = isset($params['media']) ? trim($params['media']) : 'all';
+    $src      = isset($params['src']) ? trim($params['src']) : '';
+    $media    = isset($params['media']) ? trim($params['media']) : 'all';
 	$priority = isset($params['priority']) ? $params['priority'] : null;
 
-	if (!empty($src)) {
-		EtdOptimizer::addStylesheet($src, $media, $priority);
-	}
+    if (!empty($src)) {
+        EtdOptimizer::addStylesheet($src, $media, $priority);
+    }
 
 }

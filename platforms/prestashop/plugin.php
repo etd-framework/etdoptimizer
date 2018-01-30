@@ -38,6 +38,7 @@ class EtdOptimizer extends Module {
     public static $js = array();
     public static $scripts = array();
     public static $custom = array();
+    public static $meta = array();
 
     /**
      * @var EtdOptimizerHelper $helper
@@ -116,8 +117,11 @@ class EtdOptimizer extends Module {
 
     public function hookActionDispatcher() {
 
-        // On ajoute le dossier des plugins Smarty.
+        // On ajoute le dossier des plugins Smarty du plugin.
         $this->context->smarty->addPluginsDir($this->local_path."platforms/prestashop/smarty");
+
+        // On ajoute le dossier des plugins Smarty du template.
+        $this->context->smarty->addPluginsDir(_PS_THEME_DIR_ . "smarty");
 
     }
 
@@ -151,14 +155,14 @@ class EtdOptimizer extends Module {
 
     }
 
-	public static function addStylesheet($src, $media = 'all', $priority = null) {
+    public static function addStylesheet($src, $media = 'all', $priority = null) {
 
-		self::$stylesheets[$src] = [
-			'media'   => $media,
-			'options' => isset($priority) ? ['priority' => $priority] : []
-		];
+        self::$stylesheets[$src] = [
+        	'media'   => $media,
+	        'options' => isset($priority) ? ['priority' => $priority] : []
+        ];
 
-	}
+    }
 
     public static function addStyleDeclaration($content, $type = 'text/css') {
 
@@ -170,15 +174,15 @@ class EtdOptimizer extends Module {
 
     }
 
-	public static function addScript($src, $async = false, $defer = false, $priority = null) {
+    public static function addScript($src, $async = false, $defer = false, $priority = null) {
 
-		self::$scripts[$src] = [
-			'async' => $async,
-			'defer' => $defer,
-			'options' => isset($priority) ? ['priority' => $priority] : []
-		];
+        self::$scripts[$src] = [
+            'async' => $async,
+            'defer' => $defer,
+            'options' => isset($priority) ? ['priority' => $priority] : []
+        ];
 
-	}
+    }
 
     public static function addScriptDeclaration($content, $type = 'text/javascript') {
 
@@ -187,6 +191,12 @@ class EtdOptimizer extends Module {
         } else {
             self::$js[strtolower($type)] .= chr(13) . $content;
         }
+
+    }
+
+    public static function addMeta($name, $content) {
+
+        self::$meta[$name] = $content;
 
     }
 

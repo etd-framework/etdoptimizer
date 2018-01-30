@@ -8,12 +8,13 @@
  * @author       ETD Solutions http://www.etd-solutions.com
  **/
 
-function smarty_function_addCustom($params, Smarty_Internal_Template $template) {
+function smarty_function_addMeta($params, Smarty_Internal_Template $template) {
 
-    $html = isset($params['html']) ? trim($params['html']) : '';
+    $name   = isset($params['name']) ? trim($params['name']) : '';
+    $content = isset($params['content']) ? trim(str_replace(["\n", "\r"], " ", $params['content'])) : '';
 
-    if (!empty($html)) {
-        EtdOptimizer::addCustom($html);
+    if (!empty($name)) {
+        EtdOptimizer::addMeta($name, $content);
     }
 
 }
